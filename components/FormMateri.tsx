@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 
-export default function FormMateri() {
+interface FormMateriProps {
+  onSuccess?: () => void;
+}
+
+export default function FormMateri({ onSuccess }: FormMateriProps) {
   const [judul, setJudul] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -31,8 +35,10 @@ export default function FormMateri() {
       setJudul("");
       setFile(null);
       
-      // Reload page to show new materi
-      window.location.reload();
+      // Call onSuccess callback
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (error) {
       console.error("Upload error:", error);
       alert("Gagal upload materi");

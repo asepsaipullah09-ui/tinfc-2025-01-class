@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 
-export default function FormTugas() {
+interface FormTugasProps {
+  onSuccess?: () => void;
+}
+
+export default function FormTugas({ onSuccess }: FormTugasProps) {
   const [nama, setNama] = useState("");
   const [nim, setNim] = useState("");
   const [judul, setJudul] = useState("");
@@ -37,8 +41,10 @@ export default function FormTugas() {
       setJudul("");
       setFile(null);
 
-      // Reload page to show new tugas
-      window.location.reload();
+      // Call onSuccess callback
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (error) {
       console.error("Upload error:", error);
       alert("Gagal upload tugas");
