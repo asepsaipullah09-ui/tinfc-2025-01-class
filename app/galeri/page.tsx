@@ -93,7 +93,7 @@ export default function GaleriPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Galeri Kelas 📸</h1>
+      <h1 className="text-2xl font-bold mb-6">Galeri Kelas</h1>
 
       {/* Form Upload */}
       <div className="bg-white p-4 rounded-lg shadow-md mb-6">
