@@ -1,4 +1,5 @@
 import Sidebar from "@/components/Sidebar";
+import FormMahasiswa from "@/components/FormMahasiswa";
 
 async function getMahasiswa() {
   const res = await fetch("http://localhost:3000/api/mahasiswa", {
@@ -17,6 +18,8 @@ export default async function MahasiswaPage() {
         <h1 className="text-2xl font-bold mb-4">
           Daftar Mahasiswa TINFC-2025-01
         </h1>
+
+        <FormMahasiswa />
 
         <table className="border w-full">
           <thead>

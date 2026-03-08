@@ -9,3 +9,19 @@ export async function GET() {
   }
 }
 
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const { nama, nim, email } = body;
+
+    await db.query(
+      "INSERT INTO mahasiswa (nama, nim, email) VALUES (?, ?, ?)",
+      [nama, nim, email]
+    );
+
+    return Response.json({ message: "Mahasiswa berhasil ditambahkan" });
+  } catch (error) {
+    return Response.json({ error: "Failed to add mahasiswa data" });
+  }
+}
+
