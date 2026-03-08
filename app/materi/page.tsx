@@ -1,61 +1,56 @@
-import Sidebar from "@/components/Sidebar";
 import FormMateri from "@/components/FormMateri";
 
 async function getMateri() {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ""}/api/materi`, {
-      cache: "no-store",
-    });
-    if (!res.ok) return [];
-    return res.json();
-  } catch (error) {
-    console.error("Error fetching materi:", error);
-    return [];
-  }
+  const res = await fetch("http://localhost:3000/api/materi", {
+    cache: "no-store",
+  });
+
+  return res.json();
 }
 
-export default async function Materi() {
-  const materiList = await getMateri();
+export default async function MateriPage() {
+
+  const materi = await getMateri();
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <main className="flex-1 p-8">
-        <h1 className="text-2xl font-bold mb-4">Materi Kuliah</h1>
-        
-        <FormMateri />
+    <div>
 
-        <div className="mt-6">
-          <h2 className="text-xl font-semibold mb-3">Daftar Materi</h2>
-          {materiList.length === 0 ? (
-            <p className="text-gray-500">Belum ada materi.</p>
-          ) : (
-            <ul className="space-y-2">
-              {materiList.map((materi: any) => (
-                <li key={materi.id} className="border p-3 rounded hover:bg-gray-50">
-                  <a 
-                    href={`/uploads/${materi.file}`} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline font-medium"
-                  >
-                    {materi.judul}
-                  </a>
-                  <p className="text-sm text-gray-500">
-                    Upload: {new Date(materi.created_at).toLocaleDateString("id-ID", {
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </main>
+      <h1 className="text-2xl font-bold mb-4">
+        Materi Kuliah
+      </h1>
+
+      <FormMateri />
+
+      <table className="border w-full">
+
+        <thead>
+          <tr className="bg-gray-200">
+            <th className="border p-2">Judul</th>
+            <th className="border p-2">File</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {materi.map((m:any)=>(
+            <tr key={m.id}>
+              <td className="border p-2">{m.judul}</td>
+
+              <td className="border p-2">
+                <a
+                  href={`/uploads/${m.file}`}
+                  target="_blank"
+                  className="text-blue-600"
+                >
+                  Download
+                </a>
+              </td>
+
+            </tr>
+          ))}
+        </tbody>
+
+      </table>
+
     </div>
   );
 }
