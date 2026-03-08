@@ -1,13 +1,10 @@
-import Sidebar from "@/components/Sidebar";
-
-export default function Dashboard() {
+export default function DashboardPage() {
   return (
-    <div className="flex">
-      <Sidebar />
-      <main className="flex-1 p-8">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p>Welcome to TINFC-2025-01 Class Dashboard</p>
-      </main>
+    <div>
+      <h1 className="text-2xl font-bold">
+        Dashboard TINFC-2025-01
+      </h1>
+      <p>Selamat datang di portal kelas.</p>
     </div>
   );
 }
