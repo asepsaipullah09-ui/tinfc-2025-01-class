@@ -18,16 +18,22 @@ export async function GET() {
       "SELECT COUNT(*) as total FROM galeri"
     );
 
+    const [kalender] = await db.query(
+      "SELECT COUNT(*) as total FROM kalender"
+    );
+
     const totalMahasiswa = (mahasiswa as any)[0].total;
     const totalMateri = (materi as any)[0].total;
     const totalTugas = (tugas as any)[0].total;
     const totalGaleri = (galeri as any)[0].total;
+    const totalKalender = (kalender as any)[0].total;
 
     return Response.json({
       totalMahasiswa,
       totalMateri,
       totalTugas,
-      totalGaleri
+      totalGaleri,
+      totalKalender
     });
   } catch (error) {
     return Response.json({ error: "Failed to fetch dashboard data" });

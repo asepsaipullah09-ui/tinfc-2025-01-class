@@ -28,6 +28,7 @@ interface DashboardData {
   totalMateri: number;
   totalTugas: number;
   totalGaleri: number;
+  totalKalender: number;
 }
 
 export default function DashboardPage() {
@@ -36,6 +37,7 @@ export default function DashboardPage() {
     totalMateri: 0,
     totalTugas: 0,
     totalGaleri: 0,
+    totalKalender: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -131,7 +133,7 @@ export default function DashboardPage() {
     );
   }
 
-  const totalAll = data.totalMahasiswa + data.totalMateri + data.totalTugas + data.totalGaleri;
+  const totalAll = data.totalMahasiswa + data.totalMateri + data.totalTugas + data.totalGaleri + data.totalKalender;
 
   return (
     <div>
