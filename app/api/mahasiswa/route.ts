@@ -37,4 +37,3 @@ export async function DELETE(req: Request) {
     return Response.json({ error: "Failed to delete mahasiswa data" });
   }
 }
-
