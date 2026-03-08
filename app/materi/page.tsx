@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import FormMateri from "@/components/FormMateri";
 
 interface Materi {
@@ -12,6 +12,10 @@ interface Materi {
 export default function MateriPage() {
   const [materi, setMateri] = useState<Materi[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Filter & Sort states
+  const [searchJudul, setSearchJudul] = useState("");
+  const [sortOrder, setSortOrder] = useState<"terbaru" | "terlama" | "az" | "za">("terbaru");
 
   useEffect(() => {
     fetchMateri();
@@ -28,6 +32,41 @@ export default function MateriPage() {
       setLoading(false);
     }
   };
+
+  // Filter and sort data
+  const filteredMateri = useMemo(() => {
+    let result = [...materi];
+
+    // Filter by judul
+    if (searchJudul) {
+      result = result.filter((m) =>
+        m.judul.toLowerCase().includes(searchJudul.toLowerCase())
+      );
+    }
+
+    // Sort
+    result.sort((a, b) => {
+      switch (sortOrder) {
+        case "az":
+          return a.judul.localeCompare(b.judul);
+        case "za":
+          return b.judul.localeCompare(a.judul);
+        case "terbaru":
+        case "terlama":
+        default:
+          return 0;
+      }
+    });
+
+    return result;
+  }, [materi, searchJudul, sortOrder]);
+
+  const clearFilters = () => {
+    setSearchJudul("");
+    setSortOrder("terbaru");
+  };
+
+  const hasActiveFilters = searchJudul || sortOrder !== "terbaru";
 
   if (loading) {
     return (
@@ -49,6 +88,59 @@ export default function MateriPage() {
 
       <FormMateri onSuccess={fetchMateri} />
 
+      {/* Filter Section */}
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+          <h2 className="text-lg font-semibold text-slate-800">Cari & Urutkan</h2>
+          {hasActiveFilters && (
+            <button
+              onClick={clearFilters}
+              className="text-sm text-red-500 hover:text-red-700 flex items-center gap-1"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              Clear Filter
+            </button>
+          )}
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-slate-600 mb-1">Cari Judul Materi</label>
+            <input
+              type="text"
+              value={searchJudul}
+              onChange={(e) => setSearchJudul(e.target.value)}
+              placeholder="Contoh: Algoritma..."
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-600 mb-1">Urutkan</label>
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value as any)}
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            >
+              <option value="terbaru">Terbaru</option>
+              <option value="terlama">Terlama</option>
+              <option value="az">A - Z</option>
+              <option value="za">Z - A</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Filter Status */}
+        {hasActiveFilters && (
+          <div className="mt-4 p-3 bg-green-50 rounded-lg">
+            <p className="text-sm text-green-700">
+              Menampilkan <span className="font-bold">{filteredMateri.length}</span> dari <span className="font-bold">{materi.length}</span> data materi
+            </p>
+          </div>
+        )}
+      </div>
+
       {/* Desktop Table */}
       <div className="hidden md:block bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
         <table className="w-full">
@@ -59,7 +151,7 @@ export default function MateriPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {materi.map((m) => (
+            {filteredMateri.map((m) => (
               <tr key={m.id} className="hover:bg-slate-50 transition-colors">
                 <td className="px-6 py-4 text-slate-800">{m.judul}</td>
                 <td className="px-6 py-4">
@@ -90,7 +182,7 @@ export default function MateriPage() {
 
       {/* Mobile Card View */}
       <div className="md:hidden space-y-4">
-        {materi.map((m) => (
+        {filteredMateri.map((m) => (
           <div key={m.id} className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
             <div className="flex justify-between items-center">
               <div>

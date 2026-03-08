@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 interface GaleriItem {
   id: number;
@@ -15,6 +15,10 @@ export default function GaleriPage() {
   const [galeri, setGaleri] = useState<GaleriItem[]>([]);
   const [loading, setLoading] = useState(false);
 
+  // Filter states
+  const [searchJudul, setSearchJudul] = useState("");
+  const [filterTahun, setFilterTahun] = useState("");
+
   useEffect(() => {
     fetchGaleri();
   }, []);
@@ -28,6 +32,33 @@ export default function GaleriPage() {
       console.error("Failed to fetch galeri:", error);
     }
   };
+
+  // Get unique years from data
+  const availableYears = useMemo(() => {
+    const years = new Set<string>();
+    galeri.forEach((item) => {
+      const year = new Date(item.created_at).getFullYear().toString();
+      years.add(year);
+    });
+    return Array.from(years).sort().reverse();
+  }, [galeri]);
+
+  // Filter data
+  const filteredGaleri = useMemo(() => {
+    return galeri.filter((item) => {
+      const matchJudul = item.judul.toLowerCase().includes(searchJudul.toLowerCase());
+      const itemYear = new Date(item.created_at).getFullYear().toString();
+      const matchTahun = filterTahun === "" || itemYear === filterTahun;
+      return matchJudul && matchTahun;
+    });
+  }, [galeri, searchJudul, filterTahun]);
+
+  const clearFilters = () => {
+    setSearchJudul("");
+    setFilterTahun("");
+  };
+
+  const hasActiveFilters = searchJudul || filterTahun;
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -130,13 +161,64 @@ export default function GaleriPage() {
 
       {/* Galeri Display */}
       <div className="bg-white p-4 rounded-lg shadow-md">
-        <h2 className="text-lg font-semibold mb-4">Dokumentasi Kelas</h2>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+          <h2 className="text-lg font-semibold">Dokumentasi Kelas</h2>
+          {hasActiveFilters && (
+            <button
+              onClick={clearFilters}
+              className="text-sm text-red-500 hover:text-red-700 flex items-center gap-1"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              Clear Filter
+            </button>
+          )}
+        </div>
+
+        {/* Filter Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 p-4 bg-slate-50 rounded-lg">
+          <div>
+            <label className="block text-sm font-medium text-slate-600 mb-1">Cari Judul</label>
+            <input
+              type="text"
+              value={searchJudul}
+              onChange={(e) => setSearchJudul(e.target.value)}
+              placeholder="Contoh: Presentasi..."
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-600 mb-1">Filter Tahun</label>
+            <select
+              value={filterTahun}
+              onChange={(e) => setFilterTahun(e.target.value)}
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">Semua Tahun</option>
+              {availableYears.map((year) => (
+                <option key={year} value={year}>{year}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Filter Status */}
+        {hasActiveFilters && (
+          <div className="mb-4 p-3 bg-blue-50 rounded-lg">
+            <p className="text-sm text-blue-700">
+              Menampilkan <span className="font-bold">{filteredGaleri.length}</span> dari <span className="font-bold">{galeri.length}</span> foto
+            </p>
+          </div>
+        )}
         
-        {galeri.length === 0 ? (
+        {filteredGaleri.length === 0 && hasActiveFilters ? (
+          <p className="text-gray-500 text-center py-8">Tidak ada foto yang cocok dengan filter</p>
+        ) : galeri.length === 0 ? (
           <p className="text-gray-500 text-center py-8">Belum ada foto. Upload foto pertama Anda!</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {galeri.map((item) => (
+            {filteredGaleri.map((item) => (
               <div key={item.id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
                 <div className="aspect-square relative bg-gray-100">
                   <img
