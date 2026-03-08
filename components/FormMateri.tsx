@@ -13,7 +13,7 @@ export default function FormMateri({ onSuccess }: FormMateriProps) {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    
+
     if (!judul || !file) {
       alert("Judul dan file harus diisi");
       return;
@@ -31,11 +31,9 @@ export default function FormMateri({ onSuccess }: FormMateriProps) {
         body: formData,
       });
 
-      // Reset form
       setJudul("");
       setFile(null);
-      
-      // Call onSuccess callback
+
       if (onSuccess) {
         onSuccess();
       }
@@ -48,27 +46,40 @@ export default function FormMateri({ onSuccess }: FormMateriProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-6 space-y-3">
-      <input
-        className="border p-2 w-full"
-        placeholder="Judul Materi"
-        value={judul}
-        onChange={(e) => setJudul(e.target.value)}
-      />
+    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+      <h2 className="text-lg font-semibold text-slate-800 mb-4">Upload Materi Baru</h2>
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium text-slate-600 mb-1">Judul Materi</label>
+          <input
+            type="text"
+            className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            placeholder="Contoh: Pertemuan 1 - Pengenalan Web"
+            value={judul}
+            onChange={(e) => setJudul(e.target.value)}
+          />
+        </div>
 
-      <input
-        type="file"
-        className="border p-2 w-full"
-        accept=".pdf,.ppt,.pptx,.doc,.docx"
-        onChange={(e) => setFile(e.target.files?.[0] || null)}
-      />
+        <div>
+          <label className="block text-sm font-medium text-slate-600 mb-1">File (PDF)</label>
+          <input
+            type="file"
+            accept=".pdf"
+            className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-l-lg file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
+            onChange={(e) => setFile(e.target.files?.[0] || null)}
+          />
+        </div>
 
-      <button 
-        className="bg-blue-600 text-white px-4 py-2 disabled:bg-gray-400"
-        disabled={loading}
-      >
-        {loading ? "Mengupload..." : "Upload Materi"}
-      </button>
-    </form>
+        <div className="md:col-span-3">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-green-600 hover:bg-green-700 disabled:bg-slate-400 text-white font-medium px-6 py-2.5 rounded-lg transition-colors shadow-sm hover:shadow"
+          >
+            {loading ? "Mengupload..." : "Upload Materi"}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

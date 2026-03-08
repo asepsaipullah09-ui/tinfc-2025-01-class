@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface Mahasiswa {
   id: number;
@@ -60,40 +60,43 @@ export default function EditMahasiswa({ id, nama, nim, email, onClose, onSuccess
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
-        <h2 className="text-xl font-semibold mb-4">Edit Mahasiswa</h2>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
+        <div className="bg-gradient-to-r from-amber-500 to-orange-500 px-6 py-4">
+          <h2 className="text-xl font-semibold text-white">Edit Mahasiswa</h2>
+          <p className="text-white/80 text-sm">Perbarui data mahasiswa</p>
+        </div>
         
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Nama</label>
+            <label className="block text-sm font-medium text-slate-600 mb-1">Nama</label>
             <input
               type="text"
               value={formData.nama}
               onChange={(e) => setFormData({ ...formData, nama: e.target.value })}
-              className="border p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">NIM</label>
+            <label className="block text-sm font-medium text-slate-600 mb-1">NIM</label>
             <input
               type="text"
               value={formData.nim}
               onChange={(e) => setFormData({ ...formData, nim: e.target.value })}
-              className="border p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
+            <label className="block text-sm font-medium text-slate-600 mb-1">Email</label>
             <input
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="border p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
               required
             />
           </div>
@@ -102,14 +105,14 @@ export default function EditMahasiswa({ id, nama, nim, email, onClose, onSuccess
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:bg-gray-400"
+              className="flex-1 bg-amber-500 hover:bg-amber-600 disabled:bg-slate-400 text-white font-medium px-4 py-2.5 rounded-lg transition-colors"
             >
               {loading ? "Menyimpan..." : "Simpan"}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded"
+              className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-4 py-2.5 rounded-lg transition-colors"
             >
               Batal
             </button>
