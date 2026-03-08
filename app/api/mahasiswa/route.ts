@@ -25,3 +25,16 @@ export async function POST(req: Request) {
   }
 }
 
+export async function DELETE(req: Request) {
+  try {
+    const body = await req.json();
+    const { id } = body;
+
+    await db.query("DELETE FROM mahasiswa WHERE id = ?", [id]);
+
+    return Response.json({ message: "Mahasiswa berhasil dihapus" });
+  } catch (error) {
+    return Response.json({ error: "Failed to delete mahasiswa data" });
+  }
+}
+

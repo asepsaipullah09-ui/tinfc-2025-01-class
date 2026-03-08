@@ -1,5 +1,6 @@
 import Sidebar from "@/components/Sidebar";
 import FormMahasiswa from "@/components/FormMahasiswa";
+import DeleteMahasiswa from "@/components/DeleteMahasiswa";
 
 async function getMahasiswa() {
   const res = await fetch("http://localhost:3000/api/mahasiswa", {
@@ -27,6 +28,7 @@ export default async function MahasiswaPage() {
               <th className="border p-2">Nama</th>
               <th className="border p-2">NIM</th>
               <th className="border p-2">Email</th>
+              <th className="border p-2">Aksi</th>
             </tr>
           </thead>
 
@@ -36,6 +38,9 @@ export default async function MahasiswaPage() {
                 <td className="border p-2">{m.nama}</td>
                 <td className="border p-2">{m.nim}</td>
                 <td className="border p-2">{m.email}</td>
+                <td className="border p-2">
+                  <DeleteMahasiswa id={m.id} />
+                </td>
               </tr>
             ))}
           </tbody>
