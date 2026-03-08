@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 
-export default function DashboardLayout({
+export default function MateriLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -18,3 +18,4 @@ export default function DashboardLayout({
     </div>
   );
 }
+
