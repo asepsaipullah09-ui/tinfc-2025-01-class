@@ -37,3 +37,19 @@ export async function DELETE(req: Request) {
     return Response.json({ error: "Failed to delete mahasiswa data" });
   }
 }
+
+export async function PUT(req: Request) {
+  try {
+    const body = await req.json();
+    const { id, nama, nim, email } = body;
+
+    await db.query(
+      "UPDATE mahasiswa SET nama = ?, nim = ?, email = ? WHERE id = ?",
+      [nama, nim, email, id]
+    );
+
+    return Response.json({ message: "Mahasiswa berhasil diperbarui" });
+  } catch (error) {
+    return Response.json({ error: "Failed to update mahasiswa data" });
+  }
+}

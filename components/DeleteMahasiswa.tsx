@@ -1,6 +1,11 @@
 "use client";
 
-export default function DeleteMahasiswa({ id }: { id: number }) {
+interface DeleteMahasiswaProps {
+  id: number;
+  onSuccess?: () => void;
+}
+
+export default function DeleteMahasiswa({ id, onSuccess }: DeleteMahasiswaProps) {
   const handleDelete = async () => {
     await fetch("/api/mahasiswa", {
       method: "DELETE",
@@ -10,7 +15,9 @@ export default function DeleteMahasiswa({ id }: { id: number }) {
       body: JSON.stringify({ id }),
     });
 
-    window.location.reload();
+    if (onSuccess) {
+      onSuccess();
+    }
   };
 
   return (

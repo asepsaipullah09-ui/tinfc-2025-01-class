@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 
-export default function FormMahasiswa() {
+interface FormMahasiswaProps {
+  onSuccess?: () => void;
+}
+
+export default function FormMahasiswa({ onSuccess }: FormMahasiswaProps) {
   const [nama, setNama] = useState("");
   const [nim, setNim] = useState("");
   const [email, setEmail] = useState("");
@@ -18,7 +22,13 @@ export default function FormMahasiswa() {
       body: JSON.stringify({ nama, nim, email }),
     });
 
-    window.location.reload();
+    setNama("");
+    setNim("");
+    setEmail("");
+    
+    if (onSuccess) {
+      onSuccess();
+    }
   };
 
   return (
