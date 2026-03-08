@@ -1,10 +1,10 @@
-import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
 
 export default function Home() {
   return (
-    <>
-      <Navbar />
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
+    <div className="flex">
+      <Sidebar />
+      <main className="flex-1 flex min-h-screen flex-col items-center justify-center bg-gray-100">
         <h1 className="text-4xl font-bold text-blue-600">
           TINFC-2025-01 Class
         </h1>
@@ -13,6 +13,6 @@ export default function Home() {
           Portal Kelas Teknik Informatika Angkatan 2025
         </p>
       </main>
-    </>
+    </div>
   );
 }
