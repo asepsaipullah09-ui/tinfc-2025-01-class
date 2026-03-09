@@ -5,24 +5,31 @@ import path from "path";
 
 export async function GET() {
   try {
-    const [rows] = await db.query("SELECT * FROM tugas ORDER BY created_at DESC");
-    return Response.json(rows);
+    const [rows]: any = await db.query(
+      "SELECT * FROM tugas ORDER BY created_at DESC",
+    );
+    // Ensure we always return an array
+    return Response.json(Array.isArray(rows) ? rows : []);
   } catch (error) {
-    return Response.json({ error: "Failed to fetch tugas data" }, { status: 500 });
+    console.error("Failed to fetch tugas:", error);
+    return Response.json([], { status: 200 });
   }
 }
 
 export async function POST(req: Request) {
   try {
     const formData = await req.formData();
-    
+
     const nama = formData.get("nama") as string;
     const nim = formData.get("nim") as string;
     const judul = formData.get("judul") as string;
     const file = formData.get("file") as File;
 
     if (!nama || !nim || !judul || !file) {
-      return Response.json({ error: "Semua field harus diisi" }, { status: 400 });
+      return Response.json(
+        { error: "Semua field harus diisi" },
+        { status: 400 },
+      );
     }
 
     // Ensure uploads directory exists
@@ -44,7 +51,7 @@ export async function POST(req: Request) {
     // Save to database
     await db.query(
       "INSERT INTO tugas (nama, nim, judul, file) VALUES (?, ?, ?, ?)",
-      [nama, nim, judul, filename]
+      [nama, nim, judul, filename],
     );
 
     return Response.json({ message: "Tugas berhasil diupload" });
