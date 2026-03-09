@@ -76,7 +76,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   return (
     <>
-      {/* Overlay backdrop for mobile */}
+{/* Overlay backdrop - shown when sidebar is open on mobile only */}
       {isOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
@@ -84,17 +84,17 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         />
       )}
 
-      {/* Sidebar - Desktop: always visible, Mobile: slide-in/out */}
+      {/* Sidebar - Hidden by default, shown when toggled */}
       <aside className={`
-        fixed md:static inset-y-0 left-0 z-50
+        fixed md:fixed inset-y-0 left-0 z-50
         w-64 min-h-screen bg-gradient-to-b from-gray-900 via-gray-900 to-gray-800 text-white flex flex-col
         transform transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+        ${isOpen ? 'translate-x-0' : '-translate-x-full md:-translate-x-full'}
       `}>
-        {/* Close button for mobile */}
+        {/* Close button - visible on all screen sizes */}
         <button 
           onClick={onClose}
-          className="md:hidden absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-800"
+          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-800"
           aria-label="Close menu"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

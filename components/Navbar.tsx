@@ -22,10 +22,10 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
         <div className="flex items-center justify-between gap-4">
           {/* Logo & Title + Hamburger Menu (Mobile) */}
           <div className="flex items-center gap-3">
-            {/* Hamburger Button - Only visible on mobile */}
+            {/* Hamburger Button */}
             <button 
               onClick={onMenuClick}
-              className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
+              className="p-2 rounded-lg hover:bg-white/10 transition-colors"
               aria-label="Toggle menu"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
