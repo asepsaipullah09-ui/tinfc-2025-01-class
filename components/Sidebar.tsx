@@ -327,14 +327,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       <button
         aria-expanded={isOpen}
         aria-label={isOpen ? "Sembunyikan Sidebar" : "Tampilkan Sidebar"}
-        className={cn(
-          "fixed left-0 top-1/2 z-50 hidden h-16 w-8 -translate-y-1/2 items-center justify-center rounded-r-lg shadow-lg transition-all duration-300 ease-in-out md:flex",
-          isOpen ? "left-64" : "left-0",
-          isDark
-            ? "bg-gray-800 text-white hover:bg-gray-700"
-            : "bg-gray-700 text-white hover:bg-gray-600",
-        )}
-        onClick={toggleSidebar}
+        className="hidden"
         type="button"
       >
         <svg
