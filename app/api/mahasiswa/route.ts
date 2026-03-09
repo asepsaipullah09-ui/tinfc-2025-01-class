@@ -2,10 +2,12 @@ import db from "@/lib/db";
 
 export async function GET() {
   try {
-    const [rows] = await db.query("SELECT * FROM mahasiswa");
-    return Response.json(rows);
+    const [rows]: any = await db.query("SELECT * FROM mahasiswa");
+    // Ensure we always return an array
+    return Response.json(Array.isArray(rows) ? rows : []);
   } catch (error) {
-    return Response.json({ error: "Failed to fetch mahasiswa data" });
+    console.error("Failed to fetch mahasiswa:", error);
+    return Response.json([], { status: 200 });
   }
 }
 
@@ -16,7 +18,7 @@ export async function POST(req: Request) {
 
     await db.query(
       "INSERT INTO mahasiswa (nama, nim, email) VALUES (?, ?, ?)",
-      [nama, nim, email]
+      [nama, nim, email],
     );
 
     return Response.json({ message: "Mahasiswa berhasil ditambahkan" });
@@ -45,7 +47,7 @@ export async function PUT(req: Request) {
 
     await db.query(
       "UPDATE mahasiswa SET nama = ?, nim = ?, email = ? WHERE id = ?",
-      [nama, nim, email, id]
+      [nama, nim, email, id],
     );
 
     return Response.json({ message: "Mahasiswa berhasil diperbarui" });
