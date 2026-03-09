@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
-import db from "@/lib/db";
+import pool from "@/lib/db";
 
 export async function GET() {
   try {
-    const [rows]: any = await db.query(
+    const result = await pool.query(
       "SELECT * FROM kalender ORDER BY tanggal ASC",
     );
+    const rows = result.rows;
     // Ensure we always return an array
     return NextResponse.json(Array.isArray(rows) ? rows : []);
   } catch (error) {
@@ -26,8 +27,8 @@ export async function POST(req: Request) {
       );
     }
 
-    await db.query(
-      "INSERT INTO kalender (judul, deskripsi, tanggal) VALUES (?, ?, ?)",
+    await pool.query(
+      "INSERT INTO kalender (judul, deskripsi, tanggal) VALUES ($1, $2, $3)",
       [judul, deskripsi || "", tanggal],
     );
 
@@ -53,8 +54,8 @@ export async function PUT(req: Request) {
       );
     }
 
-    await db.query(
-      "UPDATE kalender SET judul = ?, deskripsi = ?, tanggal = ? WHERE id = ?",
+    await pool.query(
+      "UPDATE kalender SET judul = $1, deskripsi = $2, tanggal = $3 WHERE id = $4",
       [judul, deskripsi || "", tanggal, id],
     );
 
@@ -77,7 +78,7 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "ID wajib diisi" }, { status: 400 });
     }
 
-    await db.query("DELETE FROM kalender WHERE id = ?", [id]);
+    await pool.query("DELETE FROM kalender WHERE id = $1", [id]);
 
     return NextResponse.json({ message: "Acara berhasil dihapus" });
   } catch (error) {

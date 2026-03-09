@@ -1,8 +1,9 @@
-import db from "@/lib/db";
+import pool from "@/lib/db";
 
 export async function GET() {
   try {
-    const [rows]: any = await db.query("SELECT * FROM mahasiswa");
+    const result = await pool.query("SELECT * FROM mahasiswa");
+    const rows = result.rows;
     // Ensure we always return an array
     return Response.json(Array.isArray(rows) ? rows : []);
   } catch (error) {
@@ -16,8 +17,8 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { nama, nim, email } = body;
 
-    await db.query(
-      "INSERT INTO mahasiswa (nama, nim, email) VALUES (?, ?, ?)",
+    await pool.query(
+      "INSERT INTO mahasiswa (nama, nim, email) VALUES ($1, $2, $3)",
       [nama, nim, email],
     );
 
@@ -32,7 +33,7 @@ export async function DELETE(req: Request) {
     const body = await req.json();
     const { id } = body;
 
-    await db.query("DELETE FROM mahasiswa WHERE id = ?", [id]);
+    await pool.query("DELETE FROM mahasiswa WHERE id = $1", [id]);
 
     return Response.json({ message: "Mahasiswa berhasil dihapus" });
   } catch (error) {
@@ -45,8 +46,8 @@ export async function PUT(req: Request) {
     const body = await req.json();
     const { id, nama, nim, email } = body;
 
-    await db.query(
-      "UPDATE mahasiswa SET nama = ?, nim = ?, email = ? WHERE id = ?",
+    await pool.query(
+      "UPDATE mahasiswa SET nama = $1, nim = $2, email = $3 WHERE id = $4",
       [nama, nim, email, id],
     );
 

@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import { writeFile, unlink } from "fs/promises";
 import path from "path";
-import db from "@/lib/db";
+import pool from "@/lib/db";
 
 export async function GET() {
   try {
-    const [rows]: any = await db.query(
+    const result = await pool.query(
       "SELECT * FROM galeri ORDER BY created_at DESC",
     );
+    const rows = result.rows;
     // Ensure we always return an array
     return Response.json(Array.isArray(rows) ? rows : []);
   } catch (error) {
@@ -37,7 +38,7 @@ export async function POST(req: Request) {
 
     const fileUrl = `/uploads/${filename}`;
 
-    await db.query("INSERT INTO galeri (judul, file_path) VALUES (?, ?)", [
+    await pool.query("INSERT INTO galeri (judul, file_path) VALUES ($1, $2)", [
       judul,
       fileUrl,
     ]);
@@ -58,10 +59,11 @@ export async function DELETE(req: Request) {
     const { id } = body;
 
     // Get file path first
-    const [rows]: any = await db.query(
-      "SELECT file_path FROM galeri WHERE id = ?",
+    const result = await pool.query(
+      "SELECT file_path FROM galeri WHERE id = $1",
       [id],
     );
+    const rows = result.rows;
 
     if (rows && rows.length > 0) {
       const filePath = rows[0].file_path;
@@ -75,7 +77,7 @@ export async function DELETE(req: Request) {
       }
     }
 
-    await db.query("DELETE FROM galeri WHERE id = ?", [id]);
+    await pool.query("DELETE FROM galeri WHERE id = $1", [id]);
 
     return Response.json({ message: "Foto berhasil dihapus" });
   } catch (error) {

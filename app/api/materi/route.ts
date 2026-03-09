@@ -1,13 +1,14 @@
-import db from "@/lib/db";
+import pool from "@/lib/db";
 import { writeFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
 import path from "path";
 
 export async function GET() {
   try {
-    const [rows]: any = await db.query(
+    const result = await pool.query(
       "SELECT * FROM materi ORDER BY created_at DESC",
     );
+    const rows = result.rows;
     // Ensure we always return an array
     return Response.json(Array.isArray(rows) ? rows : []);
   } catch (error) {
@@ -46,7 +47,7 @@ export async function POST(req: Request) {
     await writeFile(filepath, buffer);
 
     // Save to database
-    await db.query("INSERT INTO materi (judul, file) VALUES (?, ?)", [
+    await pool.query("INSERT INTO materi (judul, file) VALUES ($1, $2)", [
       judul,
       filename,
     ]);

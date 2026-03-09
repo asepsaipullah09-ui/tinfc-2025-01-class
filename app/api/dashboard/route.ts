@@ -1,24 +1,29 @@
-import db from "@/lib/db";
+import pool from "@/lib/db";
 
 export async function GET() {
   try {
-    const [mahasiswa]: any = await db.query(
+    const mahasiswaResult = await pool.query(
       "SELECT COUNT(*) as total FROM mahasiswa",
     );
+    const mahasiswa = mahasiswaResult.rows;
 
-    const [materi]: any = await db.query(
+    const materiResult = await pool.query(
       "SELECT COUNT(*) as total FROM materi",
     );
+    const materi = materiResult.rows;
 
-    const [tugas]: any = await db.query("SELECT COUNT(*) as total FROM tugas");
+    const tugasResult = await pool.query("SELECT COUNT(*) as total FROM tugas");
+    const tugas = tugasResult.rows;
 
-    const [galeri]: any = await db.query(
+    const galeriResult = await pool.query(
       "SELECT COUNT(*) as total FROM galeri",
     );
+    const galeri = galeriResult.rows;
 
-    const [kalender]: any = await db.query(
+    const kalenderResult = await pool.query(
       "SELECT COUNT(*) as total FROM kalender",
     );
+    const kalender = kalenderResult.rows;
 
     // Ensure values are always numbers, default to 0 if null/undefined
     const totalMahasiswa = Number(mahasiswa?.[0]?.total ?? 0) || 0;
