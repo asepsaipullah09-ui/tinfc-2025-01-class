@@ -2,40 +2,47 @@ import db from "@/lib/db";
 
 export async function GET() {
   try {
-    const [mahasiswa] = await db.query(
-      "SELECT COUNT(*) as total FROM mahasiswa"
+    const [mahasiswa]: any = await db.query(
+      "SELECT COUNT(*) as total FROM mahasiswa",
     );
 
-    const [materi] = await db.query(
-      "SELECT COUNT(*) as total FROM materi"
+    const [materi]: any = await db.query(
+      "SELECT COUNT(*) as total FROM materi",
     );
 
-    const [tugas] = await db.query(
-      "SELECT COUNT(*) as total FROM tugas"
+    const [tugas]: any = await db.query("SELECT COUNT(*) as total FROM tugas");
+
+    const [galeri]: any = await db.query(
+      "SELECT COUNT(*) as total FROM galeri",
     );
 
-    const [galeri] = await db.query(
-      "SELECT COUNT(*) as total FROM galeri"
+    const [kalender]: any = await db.query(
+      "SELECT COUNT(*) as total FROM kalender",
     );
 
-    const [kalender] = await db.query(
-      "SELECT COUNT(*) as total FROM kalender"
-    );
-
-    const totalMahasiswa = (mahasiswa as any)[0].total;
-    const totalMateri = (materi as any)[0].total;
-    const totalTugas = (tugas as any)[0].total;
-    const totalGaleri = (galeri as any)[0].total;
-    const totalKalender = (kalender as any)[0].total;
+    // Ensure values are always numbers, default to 0 if null/undefined
+    const totalMahasiswa = Number(mahasiswa?.[0]?.total ?? 0) || 0;
+    const totalMateri = Number(materi?.[0]?.total ?? 0) || 0;
+    const totalTugas = Number(tugas?.[0]?.total ?? 0) || 0;
+    const totalGaleri = Number(galeri?.[0]?.total ?? 0) || 0;
+    const totalKalender = Number(kalender?.[0]?.total ?? 0) || 0;
 
     return Response.json({
       totalMahasiswa,
       totalMateri,
       totalTugas,
       totalGaleri,
-      totalKalender
+      totalKalender,
     });
   } catch (error) {
-    return Response.json({ error: "Failed to fetch dashboard data" });
+    console.error("Dashboard fetch error:", error);
+    // Return default values on error
+    return Response.json({
+      totalMahasiswa: 0,
+      totalMateri: 0,
+      totalTugas: 0,
+      totalGaleri: 0,
+      totalKalender: 0,
+    });
   }
 }
