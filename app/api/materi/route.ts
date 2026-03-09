@@ -5,10 +5,14 @@ import path from "path";
 
 export async function GET() {
   try {
-    const [rows] = await db.query("SELECT * FROM materi ORDER BY created_at DESC");
-    return Response.json(rows);
+    const [rows]: any = await db.query(
+      "SELECT * FROM materi ORDER BY created_at DESC",
+    );
+    // Ensure we always return an array
+    return Response.json(Array.isArray(rows) ? rows : []);
   } catch (error) {
-    return Response.json({ error: "Failed to fetch materi data" }, { status: 500 });
+    console.error("Failed to fetch materi:", error);
+    return Response.json([], { status: 200 });
   }
 }
 
@@ -19,7 +23,10 @@ export async function POST(req: Request) {
     const file = formData.get("file") as File;
 
     if (!judul || !file) {
-      return Response.json({ error: "Judul dan file harus diisi" }, { status: 400 });
+      return Response.json(
+        { error: "Judul dan file harus diisi" },
+        { status: 400 },
+      );
     }
 
     // Ensure uploads directory exists
@@ -39,10 +46,10 @@ export async function POST(req: Request) {
     await writeFile(filepath, buffer);
 
     // Save to database
-    await db.query(
-      "INSERT INTO materi (judul, file) VALUES (?, ?)",
-      [judul, filename]
-    );
+    await db.query("INSERT INTO materi (judul, file) VALUES (?, ?)", [
+      judul,
+      filename,
+    ]);
 
     return Response.json({ message: "Materi berhasil diupload" });
   } catch (error) {
