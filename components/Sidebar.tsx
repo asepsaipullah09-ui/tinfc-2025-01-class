@@ -176,12 +176,21 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           onClick={onClose}
           type="button"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
 
-<<<<<<< HEAD
         <div className="border-b border-white/10 p-5">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 shadow-lg shadow-blue-500/20">
@@ -219,19 +228,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                     className={cn(
                       "group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200",
                       isActive
-<<<<<<< HEAD
-                        ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/25"
-                        : cn(textDefault, "hover:bg-white/10 hover:text-white"),
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        isActive ? "text-white" : textMuted,
-                        "transition-colors group-hover:text-white",
-                      )}
-                    >
-                      {item.icon}
-                    </span>
                         ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/25"
                         : cn(textDefault, "hover:bg-white/10 hover:text-white"),
                     )}
@@ -248,18 +244,50 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                     {isActive ? (
                       <span className="ml-auto h-1.5 w-1.5 rounded-full bg-white" />
                     ) : null}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        <div className="space-y-2 border-t border-white/10 p-4">
+          <button
+            onClick={toggleTheme}
+            type="button"
+            className={cn(
               "flex w-full items-center justify-between rounded-xl px-4 py-3 transition-colors hover:bg-white/10",
               textDefault,
             )}
           >
             <div className="flex items-center gap-3">
               {isDark ? (
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
                 </svg>
               ) : (
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                  />
                 </svg>
               )}
               <span>{isDark ? "Mode Terang" : "Mode Gelap"}</span>
@@ -289,20 +317,20 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 <div className="w-6 h-6 rounded-full bg-green-500 border-2 border-gray-800"></div>
                 <div className="w-6 h-6 rounded-full bg-blue-500 border-2 border-gray-800"></div>
                 <div className="w-6 h-6 rounded-full bg-purple-500 border-2 border-gray-800"></div>
-=======
-        {/* Footer Section */}
-        <div className="p-4 border-t border-gray-100">
-          <div className="bg-gray-50 rounded-xl p-4">
-            <p className="text-xs text-gray-400 mb-2">Semester Genap</p>
-            <p className="text-sm font-semibold text-gray-700">2026</p>
-            <div className="mt-3 flex items-center gap-2">
-              <div className="flex -space-x-2">
-                <div className="w-6 h-6 rounded-full bg-green-400 border-2 border-white"></div>
-                <div className="w-6 h-6 rounded-full bg-blue-400 border-2 border-white"></div>
-                <div className="w-6 h-6 rounded-full bg-purple-400 border-2 border-white"></div>
->>>>>>> 78f4e92f086f016bd24567a032259cb417b7cdd9
               </div>
               <span className={cn("text-xs", textMuted)}>Online</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <button
+        aria-expanded={isOpen}
+        aria-label={isOpen ? "Sembunyikan Sidebar" : "Tampilkan Sidebar"}
+        className={cn(
+          "fixed left-0 top-1/2 z-50 hidden h-16 w-8 -translate-y-1/2 items-center justify-center rounded-r-lg shadow-lg transition-all duration-300 ease-in-out md:flex",
+          isOpen ? "left-64" : "left-0",
+          isDark
             ? "bg-gray-800 text-white hover:bg-gray-700"
             : "bg-gray-700 text-white hover:bg-gray-600",
         )}
