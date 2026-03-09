@@ -18,7 +18,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <Navbar onMenuClick={toggleSidebar} />
       <div className="flex">
         <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
-        <main className="flex-1 p-4 md:p-6 min-h-screen transition-all duration-300">
+        <main className="flex-1 p-4 md:p-6 min-h-screen transition-all duration-300 bg-gray-50">
           {children}
         </main>
       </div>
