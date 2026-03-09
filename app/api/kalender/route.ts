@@ -3,11 +3,14 @@ import db from "@/lib/db";
 
 export async function GET() {
   try {
-    const [rows] = await db.query("SELECT * FROM kalender ORDER BY tanggal ASC");
-    return NextResponse.json(rows);
+    const [rows]: any = await db.query(
+      "SELECT * FROM kalender ORDER BY tanggal ASC",
+    );
+    // Ensure we always return an array
+    return NextResponse.json(Array.isArray(rows) ? rows : []);
   } catch (error) {
     console.error("Error fetching kalender:", error);
-    return NextResponse.json({ error: "Failed to fetch kalender data" }, { status: 500 });
+    return NextResponse.json([], { status: 200 });
   }
 }
 
@@ -17,18 +20,24 @@ export async function POST(req: Request) {
     const { judul, deskripsi, tanggal } = body;
 
     if (!judul || !tanggal) {
-      return NextResponse.json({ error: "Judul dan tanggal wajib diisi" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Judul dan tanggal wajib diisi" },
+        { status: 400 },
+      );
     }
 
     await db.query(
       "INSERT INTO kalender (judul, deskripsi, tanggal) VALUES (?, ?, ?)",
-      [judul, deskripsi || "", tanggal]
+      [judul, deskripsi || "", tanggal],
     );
 
     return NextResponse.json({ message: "Acara berhasil ditambahkan" });
   } catch (error) {
     console.error("Error adding kalender:", error);
-    return NextResponse.json({ error: "Failed to add kalender data" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to add kalender data" },
+      { status: 500 },
+    );
   }
 }
 
@@ -38,18 +47,24 @@ export async function PUT(req: Request) {
     const { id, judul, deskripsi, tanggal } = body;
 
     if (!id || !judul || !tanggal) {
-      return NextResponse.json({ error: "ID, judul, dan tanggal wajib diisi" }, { status: 400 });
+      return NextResponse.json(
+        { error: "ID, judul, dan tanggal wajib diisi" },
+        { status: 400 },
+      );
     }
 
     await db.query(
       "UPDATE kalender SET judul = ?, deskripsi = ?, tanggal = ? WHERE id = ?",
-      [judul, deskripsi || "", tanggal, id]
+      [judul, deskripsi || "", tanggal, id],
     );
 
     return NextResponse.json({ message: "Acara berhasil diperbarui" });
   } catch (error) {
     console.error("Error updating kalender:", error);
-    return NextResponse.json({ error: "Failed to update kalender data" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update kalender data" },
+      { status: 500 },
+    );
   }
 }
 
@@ -67,7 +82,9 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ message: "Acara berhasil dihapus" });
   } catch (error) {
     console.error("Error deleting kalender:", error);
-    return NextResponse.json({ error: "Failed to delete kalender data" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to delete kalender data" },
+      { status: 500 },
+    );
   }
 }
-

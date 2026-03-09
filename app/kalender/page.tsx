@@ -102,7 +102,11 @@ export default function KalenderPage() {
       }
 
       if (res.ok) {
-        alert(editingEvent ? "Acara berhasil diperbarui!" : "Acara berhasil ditambahkan!");
+        alert(
+          editingEvent
+            ? "Acara berhasil diperbarui!"
+            : "Acara berhasil ditambahkan!",
+        );
         resetForm();
         setShowForm(false);
         fetchEvents();
@@ -159,7 +163,8 @@ export default function KalenderPage() {
   };
 
   // Get dates that have events for highlighting
-  const eventDates = events.map((event) => new Date(event.tanggal));
+  const eventsArray = Array.isArray(events) ? events : [];
+  const eventDates = eventsArray.map((event) => new Date(event.tanggal));
 
   if (loading) {
     return (
@@ -186,7 +191,8 @@ export default function KalenderPage() {
                 if (view === "month") {
                   const hasEvent = events.some(
                     (event) =>
-                      new Date(event.tanggal).toDateString() === date.toDateString()
+                      new Date(event.tanggal).toDateString() ===
+                      date.toDateString(),
                   );
                   if (hasEvent) {
                     return "bg-blue-100 rounded-full";
@@ -210,7 +216,8 @@ export default function KalenderPage() {
                 : "Pilih tanggal"}
             </h2>
 
-            {selectedDate && getEventsForDate(selectedDate as Date).length > 0 ? (
+            {selectedDate &&
+            getEventsForDate(selectedDate as Date).length > 0 ? (
               <div className="space-y-3">
                 {getEventsForDate(selectedDate as Date).map((event) => (
                   <div
@@ -257,7 +264,7 @@ export default function KalenderPage() {
                 resetForm();
                 if (selectedDate) {
                   setFormTanggal(
-                    (selectedDate as Date).toISOString().split("T")[0]
+                    (selectedDate as Date).toISOString().split("T")[0],
                   );
                 }
               }}
@@ -277,7 +284,11 @@ export default function KalenderPage() {
           ) : (
             <div className="space-y-3 max-h-[600px] overflow-y-auto">
               {events
-                .sort((a, b) => new Date(a.tanggal).getTime() - new Date(b.tanggal).getTime())
+                .sort(
+                  (a, b) =>
+                    new Date(a.tanggal).getTime() -
+                    new Date(b.tanggal).getTime(),
+                )
                 .map((event) => (
                   <div
                     key={event.id}
@@ -312,7 +323,9 @@ export default function KalenderPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Judul Acara *</label>
+                <label className="block text-sm font-medium mb-1">
+                  Judul Acara *
+                </label>
                 <input
                   type="text"
                   value={formJudul}
@@ -324,7 +337,9 @@ export default function KalenderPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Deskripsi</label>
+                <label className="block text-sm font-medium mb-1">
+                  Deskripsi
+                </label>
                 <textarea
                   value={formDeskripsi}
                   onChange={(e) => setFormDeskripsi(e.target.value)}
@@ -335,7 +350,9 @@ export default function KalenderPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Tanggal *</label>
+                <label className="block text-sm font-medium mb-1">
+                  Tanggal *
+                </label>
                 <input
                   type="date"
                   value={formTanggal}
@@ -354,8 +371,8 @@ export default function KalenderPage() {
                   {submitting
                     ? "Menyimpan..."
                     : editingEvent
-                    ? "Perbarui"
-                    : "Simpan"}
+                      ? "Perbarui"
+                      : "Simpan"}
                 </button>
                 <button
                   type="button"
