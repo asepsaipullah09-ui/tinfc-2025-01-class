@@ -76,10 +76,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   return (
     <>
-{/* Overlay backdrop - shown when sidebar is open on mobile only */}
+      {/* Overlay backdrop - shown when sidebar is open on mobile only */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          className="fixed inset-0 bg-black/30 z-40 md:hidden"
           onClick={onClose}
         />
       )}
@@ -87,14 +87,15 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       {/* Sidebar - Hidden by default, shown when toggled */}
       <aside className={`
         fixed md:fixed inset-y-0 left-0 z-50
-        w-64 min-h-screen bg-gradient-to-b from-gray-900 via-gray-900 to-gray-800 text-white flex flex-col
+        w-64 min-h-screen bg-white text-gray-700 flex flex-col
+        border-r border-gray-200 shadow-sm
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full md:-translate-x-full'}
       `}>
         {/* Close button - visible on all screen sizes */}
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-800"
+          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 text-gray-500"
           aria-label="Close menu"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,15 +104,15 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </button>
 
         {/* Logo Section */}
-        <div className="p-5 border-b border-gray-700/50">
+        <div className="p-5 border-b border-gray-100">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
+              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
             <div>
-              <h2 className="font-bold text-lg">TINFC-2025-01</h2>
+              <h2 className="font-bold text-gray-800 text-lg">TINFC-2025-01</h2>
               <p className="text-xs text-gray-400">Kelas Digital</p>
             </div>
           </div>
@@ -129,16 +130,16 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                     onClick={onClose}
                     className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
                       isActive
-                        ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/25"
-                        : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                        ? "bg-gray-100 text-gray-800 font-medium"
+                        : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                     }`}
                   >
-                    <span className={`${isActive ? "text-white" : "text-gray-400 group-hover:text-white"} transition-colors`}>
+                    <span className={`${isActive ? "text-gray-700" : "text-gray-400 group-hover:text-gray-600"} transition-colors`}>
                       {item.icon}
                     </span>
-                    <span className="font-medium text-sm">{item.name}</span>
+                    <span className="text-sm">{item.name}</span>
                     {isActive && (
-                      <span className="ml-auto w-1.5 h-1.5 bg-white rounded-full"></span>
+                      <span className="ml-auto w-1.5 h-1.5 bg-gray-600 rounded-full"></span>
                     )}
                   </Link>
                 </li>
@@ -148,15 +149,15 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </nav>
 
         {/* Footer Section */}
-        <div className="p-4 border-t border-gray-700/50">
-          <div className="bg-gray-800/50 rounded-xl p-4">
+        <div className="p-4 border-t border-gray-100">
+          <div className="bg-gray-50 rounded-xl p-4">
             <p className="text-xs text-gray-400 mb-2">Semester Genap</p>
-            <p className="text-sm font-semibold text-white">2026</p>
+            <p className="text-sm font-semibold text-gray-700">2026</p>
             <div className="mt-3 flex items-center gap-2">
               <div className="flex -space-x-2">
-                <div className="w-6 h-6 rounded-full bg-green-500 border-2 border-gray-900"></div>
-                <div className="w-6 h-6 rounded-full bg-blue-500 border-2 border-gray-900"></div>
-                <div className="w-6 h-6 rounded-full bg-purple-500 border-2 border-gray-900"></div>
+                <div className="w-6 h-6 rounded-full bg-green-400 border-2 border-white"></div>
+                <div className="w-6 h-6 rounded-full bg-blue-400 border-2 border-white"></div>
+                <div className="w-6 h-6 rounded-full bg-purple-400 border-2 border-white"></div>
               </div>
               <span className="text-xs text-gray-400">Online</span>
             </div>
