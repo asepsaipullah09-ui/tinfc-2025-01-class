@@ -1,23 +1,32 @@
 "use client";
 
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  // Sidebar always visible on desktop, toggleable on mobile
-  const isOpen = true;
+  const { sidebarOpen, toggleSidebar } = useTheme();
   
   const closeSidebar = () => {
-    // No-op since we always want sidebar open on desktop
+    toggleSidebar();
+  };
+
+  const handleMenuClick = () => {
+    toggleSidebar();
   };
 
   return (
     <>
-      <Navbar onMenuClick={() => {}} />
+      <Navbar onMenuClick={handleMenuClick} />
       <div className="flex">
-        <Sidebar isOpen={isOpen} onClose={closeSidebar} />
-        <main className="flex-1 p-4 md:p-6 min-h-screen transition-all duration-300 bg-gray-50">
-          {children}
+        <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
+        <main className="flex-1 p-4 md:p-6 min-h-screen transition-all duration-300 bg-gray-50 dark:bg-slate-900">
+          <div className="max-w-7xl mx-auto">
+            <Breadcrumbs />
+            {children}
+          </div>
         </main>
       </div>
     </>

@@ -142,18 +142,18 @@ const menuItems: MenuItem[] = [
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
-  const { theme, toggleTheme, toggleSidebar } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const isDark = theme === "dark";
-  const textMuted = isDark ? "text-gray-300" : "text-gray-400";
-  const textDefault = isDark ? "text-gray-200" : "text-gray-300";
+  const textMuted = isDark ? "text-gray-400" : "text-gray-500";
+  const textDefault = isDark ? "text-gray-300" : "text-gray-600";
 
   return (
     <>
-      {/* Overlay backdrop - shown when sidebar is open on mobile only */}
+      {/* Overlay backdrop - shown when sidebar is open */}
       {isOpen && (
         <div
           aria-hidden="true"
-          className="fixed inset-0 z-40 bg-black/50 md:hidden"
+          className="fixed inset-0 z-40 bg-black/50"
           onClick={onClose}
         />
       )}
@@ -161,18 +161,22 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       <aside
         aria-label="Sidebar"
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex min-h-screen flex-col transform transition-all duration-300 ease-in-out md:static",
+          "fixed inset-y-0 left-0 z-50 flex min-h-screen flex-col transform transition-all duration-300 ease-in-out",
           isOpen
             ? "w-64 translate-x-0"
-            : "w-64 -translate-x-full md:w-0 md:overflow-hidden md:pointer-events-none",
-          isDark
-            ? "bg-gradient-to-b from-gray-900 via-gray-900 to-gray-800 text-white"
-            : "bg-gradient-to-b from-gray-800 via-gray-800 to-gray-700 text-white",
+            : "w-64 -translate-x-full",
+          // White/dark background
+          isDark ? "bg-slate-800 text-gray-200 border-slate-700" : "bg-white text-gray-700 border-gray-200",
+          "shadow-lg",
         )}
       >
+        {/* Close button in top-right */}
         <button
           aria-label="Close menu"
-          className="absolute right-4 top-4 rounded-lg p-2 hover:bg-white/10 md:hidden"
+          className={cn(
+            "absolute right-4 top-4 rounded-lg p-2 transition-colors",
+            isDark ? "hover:bg-slate-700 text-gray-400" : "hover:bg-gray-100 text-gray-500"
+          )}
           onClick={onClose}
           type="button"
         >
@@ -191,7 +195,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </svg>
         </button>
 
-        <div className="border-b border-white/10 p-5">
+        <div className={cn("border-b p-5 mt-8", isDark ? "border-slate-700" : "border-gray-200")}>
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 shadow-lg shadow-blue-500/20">
               <svg
@@ -209,11 +213,14 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               </svg>
             </div>
             <div>
-              <h2 className="font-bold text-lg">TINFC-2025-01</h2>
+              <h2 className="font-bold text-lg text-gray-800 dark:text-white">TINFC-2025-01</h2>
               <p className={cn("text-xs", textMuted)}>Kelas Digital</p>
             </div>
           </div>
         </div>
+
+        {/* Decorative ornament line */}
+        <div className={cn("h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent my-2", isDark && "via-gray-600")} />
 
         <nav className="flex-1 p-4 overflow-y-auto">
           <ul className="space-y-1">
@@ -229,13 +236,14 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                       "group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200",
                       isActive
                         ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/25"
-                        : cn(textDefault, "hover:bg-white/10 hover:text-white"),
+                        : cn(textDefault, isDark ? "hover:bg-slate-700 hover:text-white" : "hover:bg-gray-100 hover:text-gray-800"),
                     )}
                   >
                     <span
                       className={cn(
                         isActive ? "text-white" : textMuted,
-                        "transition-colors group-hover:text-white",
+                        "transition-colors",
+                        !isActive && (isDark ? "group-hover:text-white" : "group-hover:text-gray-700"),
                       )}
                     >
                       {item.icon}
@@ -251,12 +259,16 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </ul>
         </nav>
 
-        <div className="space-y-2 border-t border-white/10 p-4">
+        {/* Decorative ornament line */}
+        <div className={cn("h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent", isDark && "via-gray-600")} />
+
+        <div className={cn("space-y-2 border-t p-4", isDark ? "border-slate-700" : "border-gray-200")}>
           <button
             onClick={toggleTheme}
             type="button"
             className={cn(
-              "flex w-full items-center justify-between rounded-xl px-4 py-3 transition-colors hover:bg-white/10",
+              "flex w-full items-center justify-between rounded-xl px-4 py-3 transition-colors",
+              isDark ? "hover:bg-slate-700" : "hover:bg-gray-100",
               textDefault,
             )}
           >
@@ -295,7 +307,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             <div
               className={cn(
                 "h-6 w-10 rounded-full p-1 transition-colors",
-                isDark ? "bg-blue-500" : "bg-gray-500",
+                isDark ? "bg-blue-500" : "bg-gray-400",
               )}
             >
               <div
@@ -308,45 +320,22 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </button>
         </div>
 
-        <div className="border-t border-white/10 p-4">
-          <div className="bg-white/5 rounded-xl p-4">
+        {/* Decorative ornament */}
+        <div className={cn("border-t p-4", isDark ? "border-slate-700" : "border-gray-200")}>
+          <div className={cn("rounded-xl p-4 border", isDark ? "bg-slate-700/50 border-slate-600" : "bg-gray-50 border-gray-100")}>
             <p className={cn("mb-2 text-xs", textMuted)}>Semester Genap</p>
-            <p className="text-sm font-semibold text-white">2026</p>
+            <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">2026</p>
             <div className="mt-3 flex items-center gap-2">
               <div className="flex -space-x-2">
-                <div className="w-6 h-6 rounded-full bg-green-500 border-2 border-gray-800"></div>
-                <div className="w-6 h-6 rounded-full bg-blue-500 border-2 border-gray-800"></div>
-                <div className="w-6 h-6 rounded-full bg-purple-500 border-2 border-gray-800"></div>
+                <div className="w-6 h-6 rounded-full bg-green-500 border-2 border-white dark:border-slate-800"></div>
+                <div className="w-6 h-6 rounded-full bg-blue-500 border-2 border-white dark:border-slate-800"></div>
+                <div className="w-6 h-6 rounded-full bg-purple-500 border-2 border-white dark:border-slate-800"></div>
               </div>
               <span className={cn("text-xs", textMuted)}>Online</span>
             </div>
           </div>
         </div>
       </aside>
-
-      <button
-        aria-expanded={isOpen}
-        aria-label={isOpen ? "Sembunyikan Sidebar" : "Tampilkan Sidebar"}
-        className="hidden"
-        type="button"
-      >
-        <svg
-          className={cn(
-            "h-5 w-5 transition-transform duration-300",
-            isOpen ? "" : "rotate-180",
-          )}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-          />
-        </svg>
-      </button>
     </>
   );
 }
