@@ -1,11 +1,13 @@
+import AppLayout from "@/components/AppLayout";
+
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <AppLayout>
       {children}
-    </div>
+    </AppLayout>
   );
 }

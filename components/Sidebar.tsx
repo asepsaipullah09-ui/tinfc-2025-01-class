@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 import { useTheme } from "@/context/ThemeContext";
 
@@ -143,9 +144,14 @@ const menuItems: MenuItem[] = [
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
+  const { data: session } = useSession();
   const isDark = theme === "dark";
   const textMuted = isDark ? "text-gray-400" : "text-gray-500";
   const textDefault = isDark ? "text-gray-300" : "text-gray-600";
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: "/" });
+  };
 
   return (
     <>
@@ -320,20 +326,57 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </button>
         </div>
 
-        {/* Decorative ornament */}
+        {/* User Info & Logout */}
         <div className={cn("border-t p-4", isDark ? "border-slate-700" : "border-gray-200")}>
-          <div className={cn("rounded-xl p-4 border", isDark ? "bg-slate-700/50 border-slate-600" : "bg-gray-50 border-gray-100")}>
-            <p className={cn("mb-2 text-xs", textMuted)}>Semester Genap</p>
-            <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">2026</p>
-            <div className="mt-3 flex items-center gap-2">
-              <div className="flex -space-x-2">
-                <div className="w-6 h-6 rounded-full bg-green-500 border-2 border-white dark:border-slate-800"></div>
-                <div className="w-6 h-6 rounded-full bg-blue-500 border-2 border-white dark:border-slate-800"></div>
-                <div className="w-6 h-6 rounded-full bg-purple-500 border-2 border-white dark:border-slate-800"></div>
+          {session?.user ? (
+            <>
+              <div className={cn("rounded-xl p-4 border mb-3", isDark ? "bg-slate-700/50 border-slate-600" : "bg-gray-50 border-gray-100")}>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-semibold text-white">
+                      {session.user.name?.charAt(0).toUpperCase() || "U"}
+                    </span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-gray-700 dark:text-gray-200 truncate">
+                      {session.user.name}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">
+                      {session.user.role || "Mahasiswa"}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <span className={cn("text-xs", textMuted)}>Online</span>
+              <button
+                onClick={handleLogout}
+                type="button"
+                className={cn(
+                  "flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 transition-colors font-medium",
+                  isDark 
+                    ? "bg-red-900/50 hover:bg-red-900 text-red-400" 
+                    : "bg-red-50 hover:bg-red-100 text-red-600"
+                )}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span>Keluar</span>
+              </button>
+            </>
+          ) : (
+            <div className={cn("rounded-xl p-4 border", isDark ? "bg-slate-700/50 border-slate-600" : "bg-gray-50 border-gray-100")}>
+              <p className={cn("mb-2 text-xs", textMuted)}>Semester Genap</p>
+              <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">2026</p>
+              <div className="mt-3 flex items-center gap-2">
+                <div className="flex -space-x-2">
+                  <div className="w-6 h-6 rounded-full bg-green-500 border-2 border-white dark:border-slate-800"></div>
+                  <div className="w-6 h-6 rounded-full bg-blue-500 border-2 border-white dark:border-slate-800"></div>
+                  <div className="w-6 h-6 rounded-full bg-purple-500 border-2 border-white dark:border-slate-800"></div>
+                </div>
+                <span className={cn("text-xs", textMuted)}>Online</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </aside>
     </>
