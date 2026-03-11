@@ -4,6 +4,7 @@ import pool from "@/lib/db";
 import bcrypt from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  trustHost: true,
   providers: [
     Credentials({
       name: "credentials",
@@ -22,7 +23,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         try {
           const result = await pool.query(
             "SELECT * FROM users WHERE username = $1",
-            [username]
+            [username],
           );
 
           const user = result.rows[0];

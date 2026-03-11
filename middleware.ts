@@ -1,5 +1,7 @@
 import { auth } from "@/auth";
 
+export const runtime = "nodejs";
+
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const isOnLoginPage = req.nextUrl.pathname.startsWith("/login");
@@ -19,7 +21,15 @@ export default auth((req) => {
 
   // If not logged in and trying to access protected routes
   if (!isLoggedIn) {
-    if (isOnDashboard || isOnMateri || isOnTugas || isOnKalender || isOnGaleri || isOnMahasiswa || isOnProfile) {
+    if (
+      isOnDashboard ||
+      isOnMateri ||
+      isOnTugas ||
+      isOnKalender ||
+      isOnGaleri ||
+      isOnMahasiswa ||
+      isOnProfile
+    ) {
       const response = Response.redirect(new URL("/login", req.nextUrl));
       return response;
     }
