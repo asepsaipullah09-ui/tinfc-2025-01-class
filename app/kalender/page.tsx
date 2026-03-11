@@ -169,24 +169,29 @@ export default function KalenderPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="text-xl">Loading...</div>
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-4 border-orange-500 dark:border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-slate-500 dark:text-gray-400">Memuat data...</p>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Kalender Akademik</h1>
+      <h1 className="text-2xl font-bold mb-6 text-slate-800 dark:text-white">
+        Kalender Akademik
+      </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Calendar Section */}
         <div className="lg:col-span-2">
-          <div className="bg-white p-4 rounded-lg shadow-md">
+          <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md border border-slate-200 dark:border-slate-700">
             <Calendar
               onChange={handleDateChange}
               value={selectedDate}
               locale="id-ID"
-              className="w-full"
+              className="w-full dark:text-slate-200"
               tileClassName={({ date, view }) => {
                 if (view === "month") {
                   const hasEvent = events.some(
@@ -195,7 +200,7 @@ export default function KalenderPage() {
                       date.toDateString(),
                   );
                   if (hasEvent) {
-                    return "bg-blue-100 rounded-full";
+                    return "bg-blue-100 dark:bg-blue-900 rounded-full";
                   }
                 }
                 return "";
@@ -204,8 +209,8 @@ export default function KalenderPage() {
           </div>
 
           {/* Selected Date Events */}
-          <div className="mt-6 bg-white p-4 rounded-lg shadow-md">
-            <h2 className="text-lg font-semibold mb-4">
+          <div className="mt-6 bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md border border-slate-200 dark:border-slate-700">
+            <h2 className="text-lg font-semibold mb-4 text-slate-800 dark:text-white">
               Acara pada{" "}
               {selectedDate
                 ? new Date(selectedDate as Date).toLocaleDateString("id-ID", {
@@ -222,28 +227,30 @@ export default function KalenderPage() {
                 {getEventsForDate(selectedDate as Date).map((event) => (
                   <div
                     key={event.id}
-                    className="border rounded-lg p-4 hover:shadow-md transition"
+                    className="border border-slate-200 dark:border-slate-700 rounded-lg p-4 hover:shadow-md transition bg-slate-50 dark:bg-slate-700"
                   >
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
-                        <h3 className="font-semibold text-lg">{event.judul}</h3>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <h3 className="font-semibold text-lg text-slate-800 dark:text-white">
+                          {event.judul}
+                        </h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                           {event.deskripsi || "Tidak ada deskripsi"}
                         </p>
-                        <p className="text-xs text-gray-500 mt-2">
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                           {formatDate(event.tanggal)}
                         </p>
                       </div>
                       <div className="flex gap-2 ml-4">
                         <button
                           onClick={() => handleEdit(event)}
-                          className="text-blue-500 hover:text-blue-700 text-sm"
+                          className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
                         >
                           Edit
                         </button>
                         <button
                           onClick={() => handleDelete(event.id)}
-                          className="text-red-500 hover:text-red-700 text-sm"
+                          className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm"
                         >
                           Hapus
                         </button>
@@ -253,7 +260,7 @@ export default function KalenderPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500 text-center py-4">
+              <p className="text-gray-500 dark:text-gray-400 text-center py-4">
                 Tidak ada acara pada tanggal ini.
               </p>
             )}
@@ -268,7 +275,7 @@ export default function KalenderPage() {
                   );
                 }
               }}
-              className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+              className="mt-4 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded"
             >
               Tambah Acara
             </button>
@@ -276,11 +283,15 @@ export default function KalenderPage() {
         </div>
 
         {/* Upcoming Events List */}
-        <div className="bg-white p-4 rounded-lg shadow-md h-fit">
-          <h2 className="text-lg font-semibold mb-4">Semua Acara</h2>
+        <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 h-fit">
+          <h2 className="text-lg font-semibold mb-4 text-slate-800 dark:text-white">
+            Semua Acara
+          </h2>
 
           {events.length === 0 ? (
-            <p className="text-gray-500 text-center py-4">Belum ada acara.</p>
+            <p className="text-gray-500 dark:text-gray-400 text-center py-4">
+              Belum ada acara.
+            </p>
           ) : (
             <div className="space-y-3 max-h-[600px] overflow-y-auto">
               {events
@@ -292,7 +303,7 @@ export default function KalenderPage() {
                 .map((event) => (
                   <div
                     key={event.id}
-                    className="border rounded-lg p-3 hover:shadow-md transition cursor-pointer"
+                    className="border border-slate-200 dark:border-slate-700 rounded-lg p-3 hover:shadow-md transition cursor-pointer bg-slate-50 dark:bg-slate-700"
                     onClick={() => {
                       setSelectedDate(new Date(event.tanggal));
                       setShowForm(true);
@@ -302,8 +313,10 @@ export default function KalenderPage() {
                       setFormTanggal(event.tanggal);
                     }}
                   >
-                    <h3 className="font-medium">{event.judul}</h3>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <h3 className="font-medium text-slate-800 dark:text-white">
+                      {event.judul}
+                    </h3>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                       {formatDate(event.tanggal)}
                     </p>
                   </div>
@@ -316,14 +329,14 @@ export default function KalenderPage() {
       {/* Modal Form */}
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
-            <h2 className="text-xl font-semibold mb-4">
+          <div className="bg-white dark:bg-slate-800 rounded-lg p-6 w-full max-w-md mx-4 border border-slate-200 dark:border-slate-700">
+            <h2 className="text-xl font-semibold mb-4 text-slate-800 dark:text-white">
               {editingEvent ? "Edit Acara" : "Tambah Acara Baru"}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-gray-300">
                   Judul Acara *
                 </label>
                 <input
@@ -331,33 +344,33 @@ export default function KalenderPage() {
                   value={formJudul}
                   onChange={(e) => setFormJudul(e.target.value)}
                   placeholder="Contoh: UTS Pemrograman Web"
-                  className="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-800 dark:text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-gray-300">
                   Deskripsi
                 </label>
                 <textarea
                   value={formDeskripsi}
                   onChange={(e) => setFormDeskripsi(e.target.value)}
                   placeholder="Contoh: Ujian Tengah Semester mata kuliah Pemrograman Web"
-                  className="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-800 dark:text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   rows={3}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-gray-300">
                   Tanggal *
                 </label>
                 <input
                   type="date"
                   value={formTanggal}
                   onChange={(e) => setFormTanggal(e.target.value)}
-                  className="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-800 dark:text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
@@ -366,7 +379,7 @@ export default function KalenderPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:bg-gray-400"
+                  className="flex-1 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded disabled:bg-gray-400 dark:disabled:bg-gray-600"
                 >
                   {submitting
                     ? "Menyimpan..."
@@ -380,7 +393,7 @@ export default function KalenderPage() {
                     setShowForm(false);
                     resetForm();
                   }}
-                  className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded"
+                  className="flex-1 bg-gray-300 hover:bg-gray-400 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-800 dark:text-white px-4 py-2 rounded"
                 >
                   Batal
                 </button>

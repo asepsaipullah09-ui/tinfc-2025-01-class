@@ -63,8 +63,8 @@ export default function MahasiswaPage() {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-slate-500">Memuat data...</p>
+          <div className="w-10 h-10 border-4 border-blue-500 dark:border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-slate-500 dark:text-gray-400">Memuat data...</p>
         </div>
       </div>
     );
@@ -72,28 +72,30 @@ export default function MahasiswaPage() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <h1 className="text-2xl font-bold text-slate-800">
+      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
+        <h1 className="text-2xl font-bold text-slate-800 dark:text-white">
           Daftar Mahasiswa
-          <span className="ml-2 text-sm font-normal text-slate-500">
+          <span className="ml-2 text-sm font-normal text-slate-500 dark:text-gray-400">
             TINFC-2025-01
           </span>
         </h1>
-        <p className="text-slate-500 mt-1">Kelola data mahasiswa kelas</p>
+        <p className="text-slate-500 dark:text-gray-400 mt-1">
+          Kelola data mahasiswa kelas
+        </p>
       </div>
 
       <FormMahasiswa onSuccess={fetchMahasiswa} />
 
       {/* Filter Section */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-          <h2 className="text-lg font-semibold text-slate-800">
+          <h2 className="text-lg font-semibold text-slate-800 dark:text-white">
             Cari & Filter
           </h2>
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="text-sm text-red-500 hover:text-red-700 flex items-center gap-1"
+              className="text-sm text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 flex items-center gap-1"
             >
               <svg
                 className="w-4 h-4"
