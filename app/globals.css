@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
 :root {
   --background: #f8fafc;
   --foreground: #1e293b;
@@ -186,3 +187,110 @@ aside ::-webkit-scrollbar-thumb:hover {
 .delay-150 { animation-delay: 150ms; }
 .delay-200 { animation-delay: 200ms; }
 .delay-300 { animation-delay: 300ms; }
+
+/* ============================================
+   react-calendar: Full width
+   ============================================ */
+.react-calendar {
+  width: 100% !important;
+  max-width: 100% !important;
+  border: none !important;
+  border-radius: 0 !important;
+  font-family: inherit !important;
+  background: transparent !important;
+}
+
+.react-calendar__tile {
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+
+/* ============================================
+   react-calendar: Dark mode overrides
+   ============================================ */
+.dark .react-calendar {
+  background: transparent !important;
+  color: #e2e8f0 !important;
+  border: none !important;
+}
+
+.dark .react-calendar__navigation {
+  background: transparent !important;
+}
+
+.dark .react-calendar__navigation button {
+  color: #e2e8f0 !important;
+  background: transparent !important;
+}
+
+.dark .react-calendar__navigation button:hover,
+.dark .react-calendar__navigation button:focus {
+  background: #334155 !important;
+  border-radius: 8px;
+}
+
+.dark .react-calendar__navigation button:disabled {
+  background: transparent !important;
+  color: #64748b !important;
+}
+
+.dark .react-calendar__month-view__weekdays {
+  background: transparent !important;
+  color: #94a3b8 !important;
+}
+
+.dark .react-calendar__month-view__weekdays__weekday abbr {
+  color: #94a3b8 !important;
+  text-decoration: none !important;
+}
+
+.dark .react-calendar__month-view__days__day {
+  color: #cbd5e1 !important;
+  background: transparent !important;
+}
+
+.dark .react-calendar__month-view__days__day--weekend {
+  color: #f87171 !important;
+}
+
+.dark .react-calendar__month-view__days__day--neighboringMonth {
+  color: #475569 !important;
+}
+
+.dark .react-calendar__tile {
+  background: transparent !important;
+  color: #cbd5e1 !important;
+}
+
+.dark .react-calendar__tile:hover,
+.dark .react-calendar__tile:focus {
+  background: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+.dark .react-calendar__tile--now {
+  background: #1e3a5f !important;
+  color: #60a5fa !important;
+  font-weight: bold;
+}
+
+.dark .react-calendar__tile--now:hover {
+  background: #1e40af !important;
+}
+
+.dark .react-calendar__tile--active,
+.dark .react-calendar__tile--active:enabled:hover,
+.dark .react-calendar__tile--active:enabled:focus {
+  background: #2563eb !important;
+  color: #ffffff !important;
+}
+
+.dark .react-calendar__tile--hasActive {
+  background: #1d4ed8 !important;
+}
+
+.dark .react-calendar__year-view .react-calendar__tile,
+.dark .react-calendar__decade-view .react-calendar__tile,
+.dark .react-calendar__century-view .react-calendar__tile {
+  color: #cbd5e1 !important;
+}
