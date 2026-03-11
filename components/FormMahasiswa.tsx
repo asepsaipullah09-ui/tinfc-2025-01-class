@@ -32,13 +32,13 @@ export default function FormMahasiswa({ onSuccess }: FormMahasiswaProps) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
-      <h2 className="text-lg font-semibold text-slate-800 mb-4">Tambah Mahasiswa Baru</h2>
+    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 mb-6">
+      <h2 className="text-lg font-semibold text-slate-800 dark:text-white mb-4">Tambah Mahasiswa Baru</h2>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
         <div>
-          <label className="block text-sm font-medium text-slate-600 mb-1">Nama</label>
+          <label className="block text-sm font-medium text-slate-600 dark:text-gray-300 mb-1">Nama</label>
           <input
-            className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2.5 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
             placeholder="Nama Lengkap"
             value={nama}
             onChange={(e) => setNama(e.target.value)}
@@ -46,9 +46,9 @@ export default function FormMahasiswa({ onSuccess }: FormMahasiswaProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-600 mb-1">NIM</label>
+          <label className="block text-sm font-medium text-slate-600 dark:text-gray-300 mb-1">NIM</label>
           <input
-            className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2.5 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
             placeholder="NIM"
             value={nim}
             onChange={(e) => setNim(e.target.value)}
@@ -56,10 +56,10 @@ export default function FormMahasiswa({ onSuccess }: FormMahasiswaProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-600 mb-1">Email</label>
+          <label className="block text-sm font-medium text-slate-600 dark:text-gray-300 mb-1">Email</label>
           <input
             type="email"
-            className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2.5 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
             placeholder="email@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

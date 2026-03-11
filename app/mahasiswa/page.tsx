@@ -117,7 +117,7 @@ export default function MahasiswaPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-slate-600 mb-1">
+            <label className="block text-sm font-medium text-slate-600 dark:text-gray-300 mb-1">
               Cari Nama
             </label>
             <input
@@ -125,11 +125,11 @@ export default function MahasiswaPage() {
               value={searchNama}
               onChange={(e) => setSearchNama(e.target.value)}
               placeholder="Contoh: Ahmad..."
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-600 mb-1">
+            <label className="block text-sm font-medium text-slate-600 dark:text-gray-300 mb-1">
               Cari NIM
             </label>
             <input
@@ -137,11 +137,11 @@ export default function MahasiswaPage() {
               value={searchNim}
               onChange={(e) => setSearchNim(e.target.value)}
               placeholder="Contoh: 2324..."
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-600 mb-1">
+            <label className="block text-sm font-medium text-slate-600 dark:text-gray-300 mb-1">
               Cari Email
             </label>
             <input
@@ -149,15 +149,15 @@ export default function MahasiswaPage() {
               value={searchEmail}
               onChange={(e) => setSearchEmail(e.target.value)}
               placeholder="Contoh: @gmail.com"
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
             />
           </div>
         </div>
 
         {/* Filter Status */}
         {hasActiveFilters && (
-          <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-            <p className="text-sm text-blue-700">
+          <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/30 rounded-lg">
+            <p className="text-sm text-blue-700 dark:text-blue-400">
               Menampilkan{" "}
               <span className="font-bold">{filteredMahasiswa.length}</span> dari{" "}
               <span className="font-bold">{mahasiswa.length}</span> data
@@ -168,30 +168,30 @@ export default function MahasiswaPage() {
       </div>
 
       {/* Desktop Table */}
-      <div className="hidden md:block bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <div className="hidden md:block bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
         <table className="w-full">
-          <thead className="bg-slate-50">
+          <thead className="bg-slate-50 dark:bg-slate-700">
             <tr>
-              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700 dark:text-gray-300">
                 Nama
               </th>
-              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700 dark:text-gray-300">
                 NIM
               </th>
-              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700 dark:text-gray-300">
                 Email
               </th>
-              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700 dark:text-gray-300">
                 Aksi
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
             {filteredMahasiswa.map((m) => (
-              <tr key={m.id} className="hover:bg-slate-50 transition-colors">
-                <td className="px-6 py-4 text-slate-800">{m.nama}</td>
-                <td className="px-6 py-4 text-slate-600 font-mono">{m.nim}</td>
-                <td className="px-6 py-4 text-slate-600">{m.email}</td>
+              <tr key={m.id} className="hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                <td className="px-6 py-4 text-slate-800 dark:text-gray-200">{m.nama}</td>
+                <td className="px-6 py-4 text-slate-600 dark:text-gray-400 font-mono">{m.nim}</td>
+                <td className="px-6 py-4 text-slate-600 dark:text-gray-400">{m.email}</td>
                 <td className="px-6 py-4">
                   <div className="flex gap-2">
                     <button
@@ -208,9 +208,9 @@ export default function MahasiswaPage() {
           </tbody>
         </table>
         {filteredMahasiswa.length === 0 && hasActiveFilters && (
-          <div className="text-center py-12 text-slate-500">
+          <div className="text-center py-12 text-slate-500 dark:text-slate-400">
             <svg
-              className="w-16 h-16 mx-auto mb-4 text-slate-300"
+              className="w-16 h-16 mx-auto mb-4 text-slate-300 dark:text-slate-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -228,9 +228,9 @@ export default function MahasiswaPage() {
         {filteredMahasiswa.length === 0 &&
           !hasActiveFilters &&
           mahasiswa.length === 0 && (
-            <div className="text-center py-12 text-slate-500">
+            <div className="text-center py-12 text-slate-500 dark:text-slate-400">
               <svg
-                className="w-16 h-16 mx-auto mb-4 text-slate-300"
+                className="w-16 h-16 mx-auto mb-4 text-slate-300 dark:text-slate-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -252,26 +252,26 @@ export default function MahasiswaPage() {
         {filteredMahasiswa.map((m) => (
           <div
             key={m.id}
-            className="bg-white rounded-xl shadow-sm border border-slate-200 p-4"
+            className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-4"
           >
             <div className="space-y-3">
               <div>
-                <p className="text-xs text-slate-400 uppercase tracking-wide">
+                <p className="text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wide">
                   Nama
                 </p>
-                <p className="font-medium text-slate-800">{m.nama}</p>
+                <p className="font-medium text-slate-800 dark:text-gray-200">{m.nama}</p>
               </div>
               <div>
-                <p className="text-xs text-slate-400 uppercase tracking-wide">
+                <p className="text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wide">
                   NIM
                 </p>
-                <p className="font-mono text-slate-600">{m.nim}</p>
+                <p className="font-mono text-slate-600 dark:text-gray-400">{m.nim}</p>
               </div>
               <div>
-                <p className="text-xs text-slate-400 uppercase tracking-wide">
+                <p className="text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wide">
                   Email
                 </p>
-                <p className="text-slate-600">{m.email}</p>
+                <p className="text-slate-600 dark:text-gray-400">{m.email}</p>
               </div>
               <div className="flex gap-2 pt-2">
                 <button
@@ -288,9 +288,9 @@ export default function MahasiswaPage() {
           </div>
         ))}
         {mahasiswa.length === 0 && (
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center text-slate-500">
+          <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-12 text-center text-slate-500 dark:text-slate-400">
             <svg
-              className="w-16 h-16 mx-auto mb-4 text-slate-300"
+              className="w-16 h-16 mx-auto mb-4 text-slate-300 dark:text-slate-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
