@@ -276,7 +276,7 @@ export default function MahasiswaPage() {
               <div className="flex gap-2 pt-2">
                 <button
                   onClick={() => setEditingId(m.id)}
-                  className="flex-1 bg-amber-500 hover:bg-amber-600 text-white py-2 rounded-lg text-sm font-medium"
+                  className="flex-1 bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700 text-white py-2 rounded-lg text-sm font-medium"
                 >
                   Edit
                 </button>

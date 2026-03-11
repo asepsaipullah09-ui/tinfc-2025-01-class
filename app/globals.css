@@ -71,17 +71,17 @@ body {
   background: #94a3b8;
 }
 
-/* Sidebar scrollbar - white background specific */
-aside ::-webkit-scrollbar-track {
-  background: #f9fafb;
+/* Sidebar scrollbar - dark mode support */
+.dark aside ::-webkit-scrollbar-track {
+  background: #1e293b;
 }
 
-aside ::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+.dark aside ::-webkit-scrollbar-thumb {
+  background: #475569;
 }
 
-aside ::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+.dark aside ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
 }
 
 /* Smooth transitions */
@@ -293,4 +293,4 @@ aside ::-webkit-scrollbar-thumb:hover {
 .dark .react-calendar__decade-view .react-calendar__tile,
 .dark .react-calendar__century-view .react-calendar__tile {
   color: #cbd5e1 !important;
-}
+}

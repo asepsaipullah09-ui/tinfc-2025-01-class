@@ -247,32 +247,32 @@ export default function TugasPage() {
         {filteredTugas.map((t) => (
           <div
             key={t.id}
-            className="bg-white rounded-xl shadow-sm border border-slate-200 p-4"
+            className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-4"
           >
             <div className="space-y-3">
               <div>
-                <p className="text-xs text-slate-400 uppercase tracking-wide">
+                <p className="text-xs text-slate-400 dark:text-gray-500 uppercase tracking-wide">
                   Nama
                 </p>
-                <p className="font-medium text-slate-800">{t.nama}</p>
+                <p className="font-medium text-slate-800 dark:text-gray-200">{t.nama}</p>
               </div>
               <div>
-                <p className="text-xs text-slate-400 uppercase tracking-wide">
+                <p className="text-xs text-slate-400 dark:text-gray-500 uppercase tracking-wide">
                   NIM
                 </p>
-                <p className="font-mono text-slate-600">{t.nim}</p>
+                <p className="font-mono text-slate-600 dark:text-gray-400">{t.nim}</p>
               </div>
               <div>
-                <p className="text-xs text-slate-400 uppercase tracking-wide">
+                <p className="text-xs text-slate-400 dark:text-gray-500 uppercase tracking-wide">
                   Judul
                 </p>
-                <p className="text-slate-800">{t.judul}</p>
+                <p className="text-slate-800 dark:text-gray-200">{t.judul}</p>
               </div>
               <div className="pt-2">
                 <a
                   href={`/uploads/tugas/${t.file}`}
                   target="_blank"
-                  className="block w-full bg-purple-500 hover:bg-purple-600 text-white text-center py-2 rounded-lg text-sm font-medium"
+                  className="block w-full bg-purple-500 hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-700 text-white text-center py-2 rounded-lg text-sm font-medium"
                 >
                   Download
                 </a>
@@ -281,9 +281,9 @@ export default function TugasPage() {
           </div>
         ))}
         {tugas.length === 0 && (
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center text-slate-500">
+          <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-12 text-center text-slate-500 dark:text-gray-500">
             <svg
-              className="w-16 h-16 mx-auto mb-4 text-slate-300"
+              className="w-16 h-16 mx-auto mb-4 text-slate-300 dark:text-slate-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

@@ -79,8 +79,8 @@ export default function ProfilePage() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-500">Memuat profil...</p>
+          <div className="w-12 h-12 border-4 border-blue-600 dark:border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-500 dark:text-gray-400">Memuat profil...</p>
         </div>
       </div>
     );
@@ -88,13 +88,13 @@ export default function ProfilePage() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <h1 className="text-2xl font-bold text-slate-800">Profil Mahasiswa</h1>
-        <p className="text-slate-500 mt-1">Cari profil Anda dengan NIM</p>
+      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
+        <h1 className="text-2xl font-bold text-slate-800 dark:text-white">Profil Mahasiswa</h1>
+        <p className="text-slate-500 dark:text-gray-400 mt-1">Cari profil Anda dengan NIM</p>
       </div>
 
       {/* Search Form */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
         <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
             <input
@@ -102,28 +102,28 @@ export default function ProfilePage() {
               value={nim}
               onChange={(e) => setNim(e.target.value)}
               placeholder="Masukkan NIM Anda..."
-              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+              className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg dark:text-white"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white font-medium px-8 py-3 rounded-lg transition-colors shadow-sm hover:shadow"
+            className="bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 dark:disabled:bg-slate-600 text-white font-medium px-8 py-3 rounded-lg transition-colors shadow-sm hover:shadow"
           >
             {loading ? "Mencari..." : "Cari Profil"}
           </button>
         </form>
         
         {error && (
-          <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-600 text-sm">{error}</p>
+          <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg">
+            <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>
           </div>
         )}
       </div>
 
       {/* Profile Card */}
       {mahasiswa && (
-        <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
           <div className="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-8">
             <div className="flex items-center gap-6">
               <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center">
@@ -141,34 +141,34 @@ export default function ProfilePage() {
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <p className="text-sm text-slate-400 uppercase tracking-wide">Nama Lengkap</p>
-                <p className="text-lg font-medium text-slate-800">{mahasiswa.nama}</p>
+                <p className="text-sm text-slate-400 dark:text-gray-400 uppercase tracking-wide">Nama Lengkap</p>
+                <p className="text-lg font-medium text-slate-800 dark:text-white">{mahasiswa.nama}</p>
               </div>
               
               <div className="space-y-2">
-                <p className="text-sm text-slate-400 uppercase tracking-wide">NIM</p>
-                <p className="text-lg font-mono text-slate-800">{mahasiswa.nim}</p>
+                <p className="text-sm text-slate-400 dark:text-gray-400 uppercase tracking-wide">NIM</p>
+                <p className="text-lg font-mono text-slate-800 dark:text-white">{mahasiswa.nim}</p>
               </div>
               
               <div className="space-y-2 md:col-span-2">
-                <p className="text-sm text-slate-400 uppercase tracking-wide">Email</p>
-                <p className="text-lg text-slate-800">{mahasiswa.email}</p>
+                <p className="text-sm text-slate-400 dark:text-gray-400 uppercase tracking-wide">Email</p>
+                <p className="text-lg text-slate-800 dark:text-white">{mahasiswa.email}</p>
               </div>
             </div>
             
-            <div className="mt-8 pt-6 border-t border-slate-100">
+            <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-700">
               <div className="flex flex-wrap gap-3">
-                <span className="px-4 py-2 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
+                <span className="px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-sm font-medium">
                   Kelas TINFC-2025-01
                 </span>
-                <span className="px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-medium">
+                <span className="px-4 py-2 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-sm font-medium">
                   Aktif
                 </span>
               </div>
               <div className="mt-4 flex justify-end">
                 <button
                   onClick={handleLogout}
-                  className="text-sm text-slate-500 hover:text-red-600 transition-colors flex items-center gap-2"
+                  className="text-sm text-slate-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors flex items-center gap-2"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -183,12 +183,12 @@ export default function ProfilePage() {
 
       {/* Empty State */}
       {!mahasiswa && !loading && !error && (
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
-          <svg className="w-20 h-20 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-12 text-center">
+          <svg className="w-20 h-20 mx-auto mb-4 text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
-          <h3 className="text-lg font-semibold text-slate-700 mb-2">Cari Profil Anda</h3>
-          <p className="text-slate-500 max-w-md mx-auto">
+          <h3 className="text-lg font-semibold text-slate-700 dark:text-white mb-2">Cari Profil Anda</h3>
+          <p className="text-slate-500 dark:text-gray-400 max-w-md mx-auto">
             Masukkan NIM Anda pada kolom pencarian di atas untuk melihat profil akademik Anda.
           </p>
         </div>

@@ -262,9 +262,9 @@ export default function MateriPage() {
           </div>
         ))}
         {materi.length === 0 && (
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center text-slate-500">
+          <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-12 text-center text-slate-500 dark:text-gray-500">
             <svg
-              className="w-16 h-16 mx-auto mb-4 text-slate-300"
+              className="w-16 h-16 mx-auto mb-4 text-slate-300 dark:text-slate-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
