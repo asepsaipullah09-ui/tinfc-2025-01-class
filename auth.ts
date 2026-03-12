@@ -17,32 +17,37 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        const username = credentials.username as string;
+        const identifier = credentials.username as string; // username or email
         const password = credentials.password as string;
 
         try {
-          const result = await pool.query(
-            "SELECT * FROM users WHERE username = $1",
-            [username],
+        const [result] = await pool.execute(
+            "SELECT * FROM users WHERE username = ?",
+            [identifier]
           );
 
-          const user = result.rows[0];
+          const user = Array.isArray(result) ? result[0] : null;
 
           if (!user) {
             return null;
           }
 
-          const isPasswordValid = await bcrypt.compare(password, user.password);
+          // Campus domain check if email exists
+          if (user.email && !user.email.endsWith('@uniku.ac.id')) {
+            return null;
+          }
+
+          const isPasswordValid = await bcrypt.compare(password, (user as any).password);
 
           if (!isPasswordValid) {
             return null;
           }
 
           return {
-            id: user.id.toString(),
-            name: user.nama,
-            email: user.username,
-            role: user.role,
+            id: (user as any).id.toString(),
+            name: (user as any).nama,
+            email: (user as any).email || (user as any).username,
+            role: (user as any).role,
           };
         } catch (error) {
           console.error("Auth error:", error);

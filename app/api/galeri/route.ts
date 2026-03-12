@@ -5,12 +5,8 @@ import pool from "@/lib/db";
 
 export async function GET() {
   try {
-    const result = await pool.query(
-      "SELECT * FROM galeri ORDER BY created_at DESC",
-    );
-    const rows = result.rows;
-    // Ensure we always return an array
-    return Response.json(Array.isArray(rows) ? rows : []);
+    const [rows] = await pool.execute("SELECT * FROM galeri ORDER BY created_at DESC");
+    return Response.json(rows || []);
   } catch (error) {
     console.error("Failed to fetch galeri:", error);
     return Response.json([], { status: 200 });
@@ -38,7 +34,7 @@ export async function POST(req: Request) {
 
     const fileUrl = `/uploads/${filename}`;
 
-    await pool.query("INSERT INTO galeri (judul, file_path) VALUES ($1, $2)", [
+    await pool.execute("INSERT INTO galeri (judul, file_path) VALUES (?, ?)", [
       judul,
       fileUrl,
     ]);
@@ -59,14 +55,13 @@ export async function DELETE(req: Request) {
     const { id } = body;
 
     // Get file path first
-    const result = await pool.query(
-      "SELECT file_path FROM galeri WHERE id = $1",
+    const [rows] = await pool.execute(
+      "SELECT file_path FROM galeri WHERE id = ?",
       [id],
     );
-    const rows = result.rows;
 
-    if (rows && rows.length > 0) {
-      const filePath = rows[0].file_path;
+    if (Array.isArray(rows) && rows.length > 0) {
+      const filePath = (rows[0] as any).file_path;
 
       // Delete file from filesystem
       const fullPath = path.join(process.cwd(), "public", filePath);
@@ -77,7 +72,7 @@ export async function DELETE(req: Request) {
       }
     }
 
-    await pool.query("DELETE FROM galeri WHERE id = $1", [id]);
+    await pool.execute("DELETE FROM galeri WHERE id = ?", [id]);
 
     return Response.json({ message: "Foto berhasil dihapus" });
   } catch (error) {

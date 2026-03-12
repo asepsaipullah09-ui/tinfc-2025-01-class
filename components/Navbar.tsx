@@ -109,16 +109,29 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-400 rounded-full ring-2 ring-white dark:ring-slate-800" />
             </button>
 
-            {/* Profile Link */}
-            <Link
-              href="/profile"
-              className="flex items-center"
-              title="Profil"
-            >
-              <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg sm:rounded-xl flex items-center justify-center shadow-md text-white text-xs sm:text-sm font-bold">
-                {session?.user?.name?.charAt(0).toUpperCase() ?? "T"}
+            {/* Auth Controls */}
+            {session ? (
+              <Link href="/profile" className="flex items-center" title="Profil">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg sm:rounded-xl flex items-center justify-center shadow-md text-white text-xs sm:text-sm font-bold">
+                  {session?.user?.name?.charAt(0).toUpperCase() ?? "T"}
+                </div>
+              </Link>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/login"
+                  className="px-3 py-2 text-sm font-medium bg-white/60 dark:bg-slate-700/60 backdrop-blur-sm border border-gray-200/50 dark:border-slate-600/50 rounded-xl hover:bg-white dark:hover:bg-slate-600 hover:border-gray-300 dark:hover:border-slate-500 transition-all text-gray-700 dark:text-gray-200"
+                >
+                  Masuk
+                </Link>
+                <Link
+                  href="/register"
+                  className="px-3 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-sm font-bold rounded-xl shadow-lg shadow-emerald-400/30 hover:shadow-emerald-500/40 hover:from-emerald-600 hover:to-teal-700 transition-all"
+                >
+                  Daftar
+                </Link>
               </div>
-            </Link>
+            )}
           </div>
         </div>
 

@@ -5,12 +5,8 @@ import path from "path";
 
 export async function GET() {
   try {
-    const result = await pool.query(
-      "SELECT * FROM materi ORDER BY created_at DESC",
-    );
-    const rows = result.rows;
-    // Ensure we always return an array
-    return Response.json(Array.isArray(rows) ? rows : []);
+    const [rows] = await pool.execute("SELECT * FROM materi ORDER BY created_at DESC");
+    return Response.json(rows || []);
   } catch (error) {
     console.error("Failed to fetch materi:", error);
     return Response.json([], { status: 200 });
@@ -47,7 +43,7 @@ export async function POST(req: Request) {
     await writeFile(filepath, buffer);
 
     // Save to database
-    await pool.query("INSERT INTO materi (judul, file) VALUES ($1, $2)", [
+    await pool.execute("INSERT INTO materi (judul, file) VALUES (?, ?)", [
       judul,
       filename,
     ]);

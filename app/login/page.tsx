@@ -81,9 +81,10 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Username */}
             <div>
-              <label htmlFor="username" className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
-                Username
+              <label htmlFor="identifier" className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
+                Username atau Email
               </label>
+              <p className="text-xs text-gray-500 mb-1">Bisa login pakai username atau email</p>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <svg className="h-5 w-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,14 +92,14 @@ export default function LoginPage() {
                   </svg>
                 </div>
                 <input
-                  id="username"
+                  id="identifier"
                   name="username"
                   type="text"
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   className="w-full pl-11 pr-4 py-3.5 bg-gray-50 dark:bg-slate-700/70 border border-gray-200 dark:border-slate-600 rounded-xl text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm"
-                  placeholder="Masukkan username"
+                  placeholder="username123 atau john@example.com"
                 />
               </div>
             </div>
