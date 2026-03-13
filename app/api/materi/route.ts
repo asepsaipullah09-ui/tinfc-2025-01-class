@@ -1,16 +1,14 @@
-import pool from "@/lib/db";
+import { materi, saveData } from "@/lib/mockData";
 import { writeFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
 import path from "path";
 
 export async function GET() {
-  try {
-    const [rows] = await pool.execute("SELECT * FROM materi ORDER BY created_at DESC");
-    return Response.json(rows || []);
-  } catch (error) {
-    console.error("Failed to fetch materi:", error);
-    return Response.json([], { status: 200 });
-  }
+  const sorted = materi.sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+  );
+  return Response.json(sorted);
 }
 
 export async function POST(req: Request) {
@@ -42,11 +40,18 @@ export async function POST(req: Request) {
     const buffer = Buffer.from(bytes);
     await writeFile(filepath, buffer);
 
-    // Save to database
-    await pool.execute("INSERT INTO materi (judul, file) VALUES (?, ?)", [
+    // Save to mock data
+    const newId = materi.length
+      ? Math.max(...materi.map((m: any) => m.id || 0)) + 1
+      : 1;
+    const newMateri = {
+      id: newId,
       judul,
-      filename,
-    ]);
+      file: filename,
+      created_at: new Date().toISOString(),
+    };
+    materi.push(newMateri);
+    await saveData();
 
     return Response.json({ message: "Materi berhasil diupload" });
   } catch (error) {

@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import pool from "@/lib/db";
-import bcrypt from "bcryptjs";
+import { users } from "@/lib/mockData";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
@@ -17,42 +16,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        const identifier = credentials.username as string; // username or email
+        const identifier = credentials.username as string;
         const password = credentials.password as string;
 
-        try {
-        const [result] = await pool.execute(
-            "SELECT * FROM users WHERE username = ?",
-            [identifier]
-          );
+        const user = users.find((u) => u.username === identifier);
 
-          const user = Array.isArray(result) ? result[0] : null;
-
-          if (!user) {
-            return null;
-          }
-
-          // Campus domain check if email exists
-          if (user.email && !user.email.endsWith('@uniku.ac.id')) {
-            return null;
-          }
-
-          const isPasswordValid = await bcrypt.compare(password, (user as any).password);
-
-          if (!isPasswordValid) {
-            return null;
-          }
-
-          return {
-            id: (user as any).id.toString(),
-            name: (user as any).nama,
-            email: (user as any).email || (user as any).username,
-            role: (user as any).role,
-          };
-        } catch (error) {
-          console.error("Auth error:", error);
+        if (!user) {
           return null;
         }
+
+        // Simple plain text check for mock data (admin/admin123, mahasiswa1/pass123)
+        if (user.password !== password) {
+          return null;
+        }
+
+        // Campus domain check
+        if (user.email && !user.email.endsWith("@uniku.ac.id")) {
+          return null;
+        }
+
+        return {
+          id: user.id.toString(),
+          name: user.nama,
+          email: user.email || user.username,
+          role: user.role,
+        };
       },
     }),
   ],

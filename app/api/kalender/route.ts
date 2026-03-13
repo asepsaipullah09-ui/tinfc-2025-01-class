@@ -1,14 +1,9 @@
 import { NextResponse } from "next/server";
-import pool from "@/lib/db";
+import { kalender, saveData } from "@/lib/mockData";
 
 export async function GET() {
-  try {
-    const [rows] = await pool.execute("SELECT * FROM kalender ORDER BY tanggal ASC");
-    return NextResponse.json(rows || []);
-  } catch (error) {
-    console.error("Error fetching kalender:", error);
-    return NextResponse.json([], { status: 200 });
-  }
+  const sorted = kalender.sort((a, b) => a.tanggal.localeCompare(b.tanggal));
+  return NextResponse.json(sorted);
 }
 
 export async function POST(req: Request) {
@@ -23,10 +18,18 @@ export async function POST(req: Request) {
       );
     }
 
-    await pool.execute(
-      "INSERT INTO kalender (judul, deskripsi, tanggal) VALUES (?, ?, ?)",
-      [judul, deskripsi || "", tanggal],
-    );
+    const newId = kalender.length
+      ? Math.max(...kalender.map((k: any) => k.id)) + 1
+      : 1;
+    const newKalender = {
+      id: newId,
+      judul,
+      deskripsi: deskripsi || "",
+      tanggal,
+      created_at: new Date().toISOString(),
+    };
+    kalender.push(newKalender);
+    await saveData();
 
     return NextResponse.json({ message: "Acara berhasil ditambahkan" });
   } catch (error) {
@@ -50,10 +53,17 @@ export async function PUT(req: Request) {
       );
     }
 
-    await pool.execute(
-      "UPDATE kalender SET judul = ?, deskripsi = ?, tanggal = ? WHERE id = ?",
-      [judul, deskripsi || "", tanggal, id],
-    );
+    const index = kalender.findIndex((k) => k.id === parseInt(id));
+    if (index > -1) {
+      kalender[index] = {
+        ...kalender[index],
+        judul,
+        deskripsi: deskripsi || "",
+        tanggal,
+      };
+      kalender[index].created_at = new Date().toISOString();
+      await saveData();
+    }
 
     return NextResponse.json({ message: "Acara berhasil diperbarui" });
   } catch (error) {
@@ -74,7 +84,11 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "ID wajib diisi" }, { status: 400 });
     }
 
-    await pool.execute("DELETE FROM kalender WHERE id = ?", [id]);
+    const index = kalender.findIndex((k) => k.id === parseInt(id));
+    if (index > -1) {
+      kalender.splice(index, 1);
+      await saveData();
+    }
 
     return NextResponse.json({ message: "Acara berhasil dihapus" });
   } catch (error) {

@@ -1,11 +1,11 @@
 import mysql from 'mysql2/promise';
 
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'tinfc_class',
-  port: 3306,
+  host: process.env.DATABASE_HOST || 'localhost',
+  user: process.env.DATABASE_USER || 'root',
+  password: process.env.DATABASE_PASSWORD || '',
+  database: process.env.DATABASE_NAME || 'tinfc_class',
+  port: parseInt(process.env.DATABASE_PORT || '3306'),
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0

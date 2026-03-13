@@ -1,0 +1,7 @@
+refactor: gunakan mockData & rapikan layout dashboard
+
+- Dashboard login kini memakai AppLayout (navbar + sidebar)
+- Sidebar dibuat sticky di bawah navbar dan konten digeser pada desktop
+- API routes memakai mockData + helper seed/db init
+- Hapus dependency DB (pg/mysql2) yang tidak dipakai
+- Fix parsing error galeri (`&amp;&amp;` -> `&&`) dan fallback font tanpa Google Fonts

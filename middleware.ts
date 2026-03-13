@@ -5,6 +5,7 @@ export const runtime = "nodejs";
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const isOnLoginPage = req.nextUrl.pathname.startsWith("/login");
+  const isOnRegisterPage = req.nextUrl.pathname.startsWith("/register");
   const isOnDashboard = req.nextUrl.pathname.startsWith("/dashboard");
   const isOnMateri = req.nextUrl.pathname.startsWith("/materi");
   const isOnTugas = req.nextUrl.pathname.startsWith("/tugas");
@@ -19,25 +20,15 @@ export default auth((req) => {
     return;
   }
 
-  // If not logged in and trying to access protected routes
-  if (!isLoggedIn) {
-    if (
-      isOnDashboard ||
-      isOnMateri ||
-      isOnTugas ||
-      isOnKalender ||
-      isOnGaleri ||
-      isOnMahasiswa ||
-      isOnProfile
-    ) {
-      const response = Response.redirect(new URL("/login", req.nextUrl));
-      return response;
-    }
+  // Public pages always allowed
+  if (req.nextUrl.pathname === "/" || isOnLoginPage || isOnRegisterPage) {
+    return;
   }
 
-  // If logged in and trying to access login page
-  if (isLoggedIn && isOnLoginPage) {
-    return Response.redirect(new URL("/dashboard", req.nextUrl));
+  // If not logged in and trying to access protected routes
+  if (!isLoggedIn) {
+    const response = Response.redirect(new URL("/login", req.nextUrl));
+    return response;
   }
 });
 

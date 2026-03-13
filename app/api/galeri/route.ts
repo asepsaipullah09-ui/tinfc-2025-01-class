@@ -1,16 +1,16 @@
 import { NextResponse } from "next/server";
-import { writeFile, unlink } from "fs/promises";
+import { galeri, saveData } from "@/lib/mockData";
+import { writeFile, mkdir, unlink } from "fs/promises";
+import { existsSync } from "fs";
 import path from "path";
-import pool from "@/lib/db";
 
 export async function GET() {
-  try {
-    const [rows] = await pool.execute("SELECT * FROM galeri ORDER BY created_at DESC");
-    return Response.json(rows || []);
-  } catch (error) {
-    console.error("Failed to fetch galeri:", error);
-    return Response.json([], { status: 200 });
-  }
+  return Response.json(
+    galeri.sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    ),
+  );
 }
 
 export async function POST(req: Request) {
@@ -34,10 +34,18 @@ export async function POST(req: Request) {
 
     const fileUrl = `/uploads/${filename}`;
 
-    await pool.execute("INSERT INTO galeri (judul, file_path) VALUES (?, ?)", [
-      judul,
-      fileUrl,
-    ]);
+    // Add to mock
+    const newId = galeri.length
+      ? Math.max(...galeri.map((g: any) => g.id)) + 1
+      : 1;
+    const newGaleri = {
+      id: newId,
+      judul: judul || "Untitled",
+      file_path: fileUrl,
+      created_at: new Date().toISOString(),
+    };
+    galeri.push(newGaleri);
+    await saveData();
 
     return NextResponse.json({
       success: true,
@@ -54,25 +62,18 @@ export async function DELETE(req: Request) {
     const body = await req.json();
     const { id } = body;
 
-    // Get file path first
-    const [rows] = await pool.execute(
-      "SELECT file_path FROM galeri WHERE id = ?",
-      [id],
-    );
-
-    if (Array.isArray(rows) && rows.length > 0) {
-      const filePath = (rows[0] as any).file_path;
-
-      // Delete file from filesystem
+    const index = galeri.findIndex((g) => g.id === parseInt(id));
+    if (index > -1) {
+      const filePath = galeri[index].file_path;
       const fullPath = path.join(process.cwd(), "public", filePath);
       try {
         await unlink(fullPath);
       } catch (err) {
         console.error("File deletion error:", err);
       }
+      galeri.splice(index, 1);
+      await saveData();
     }
-
-    await pool.execute("DELETE FROM galeri WHERE id = ?", [id]);
 
     return Response.json({ message: "Foto berhasil dihapus" });
   } catch (error) {

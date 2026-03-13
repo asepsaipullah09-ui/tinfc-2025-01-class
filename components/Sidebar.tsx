@@ -159,7 +159,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       {isOpen && (
         <div
           aria-hidden="true"
-          className="fixed inset-0 z-40 bg-black/50"
+          className="fixed inset-0 z-40 bg-black/50 md:hidden"
           onClick={onClose}
         />
       )}
@@ -167,10 +167,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       <aside
         aria-label="Sidebar"
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex min-h-screen flex-col transform transition-all duration-300 ease-in-out",
-          isOpen
-            ? "w-64 translate-x-0"
-            : "w-64 -translate-x-full",
+          "fixed left-0 top-20 bottom-0 z-50 flex w-64 flex-col transform overflow-y-auto transition-all duration-300 ease-in-out",
+          isOpen ? "translate-x-0" : "-translate-x-full",
+          "md:translate-x-0",
           // White/dark background
           isDark ? "bg-slate-800 text-gray-200 border-slate-700" : "bg-white text-gray-700 border-gray-200",
           "shadow-lg",
